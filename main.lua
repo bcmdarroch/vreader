@@ -1,14 +1,14 @@
 function lovr.load()
-  -- load book/text
+-- load book/text
 
-  -- load model
-  environment = lovr.graphics.newModel('assets/Room_block.fbx')
+-- load model
+  -- environment =  lovr.graphics.newModel('assets/Room_block.obj')
 
-  -- load audio
+-- load audio
 
-  -- load controllers
+-- load controllers
 
-  -- load page (plane)
+-- load page (plane)
 
 end
 
@@ -20,18 +20,17 @@ function lovr.update()
 end
 
 function lovr.draw()
-  -- test
+-- test
   -- lovr.graphics.cube('line', 0, 0, -2)
-  -- lovr.graphics.print("hello world!", 0, 0, -5)
+  lovr.graphics.print("hello world!", -1, -1, -2)
+  lovr.graphics.plane("fill", -1, -1, -2, 1, .5, .5, .5)
 
-  -- render environment given user's position in space
-  -- environment:draw(0, 0, 0, 1, 90)
-  environment:draw(0, 0, 0, 4, 90)
+-- render environment given user's position in space
+  -- environment:draw(0, 0, -250, 1, 90)
+  -- lovr.graphics.setBackgroundColor(0, 0, 255, 255)
 
-  lovr.graphics.setBackgroundColor(0, 0, 255, 255)
+-- if read mode on, render page with in front of camera
 
-  -- if read mode on, render page with in front of camera
-
-  -- render UI
+-- render UI
 
 end
