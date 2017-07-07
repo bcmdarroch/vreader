@@ -1,8 +1,11 @@
+-- LOVR callbacks
 function lovr.load()
+  -- require('functions')
+  require('test')
   width, height = lovr.graphics.getDimensions()
 
   -- load model
-  -- environment =  lovr.graphics.newModel('assets/Room_block.obj')
+  environment =  lovr.graphics.newModel('assets/Room_block.obj')
 
   -- load audio
   sound = lovr.audio.newSource('assets/background.ogg')
@@ -16,21 +19,23 @@ function lovr.load()
 
   -- load book/text
   -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
-  displayText = getText('assets/room/1.txt')
+  -- displayText = text -- from test.lua
+  displayText = lovr.filesystem.read('assets/room/part1.txt')
 
 end
 
 -- load functions
-
-function getText(path)
-  local textFile = io.open(path)
-  -- print(textFile)
-  local bookText = textFile:read("*a")
-  -- print(bookText)
-  textFile:close()
-
-  return bookText
-end
+--
+-- function getText(path)
+--   print("hey this: " .. io.open(path))
+--   -- local textFile = io.open(path)
+--   -- print(textFile)
+--   local bookText = textFile:read("*a")
+--   -- print(bookText)
+--   textFile:close()
+--
+--   return bookText
+-- end
 
 function lovr.update()
   -- has user moved?
@@ -39,7 +44,6 @@ function lovr.update()
 
 end
 
--- update functions
 
 function lovr.draw()
   -- test
@@ -49,17 +53,17 @@ function lovr.draw()
   -- lovr.graphics.cube('line', 0, 0, -2, .5, lovr.timer.getTime())
 
   -- play background sound
-  -- sound:play()
+  sound:play()
 
   -- render environment given user's position in space
-  -- environment:draw(0, 0, -250, 1, 90)
+  environment:draw(0, 0, -250, 1, 90)
   lovr.graphics.setBackgroundColor(230, 240, 255, 200)
 
   -- if read mode on, render page with in front of camera
   -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
   -- font:setPixelDensity(50)
   lovr.graphics.setColor(0, 0, 0, 255)
-  lovr.graphics.print(displayText, 0, 0, -4)
+  lovr.graphics.print(displayText, 100, 2, -10)
   -- go to next line if LineWidth > width
 
   -- render UI
@@ -69,4 +73,6 @@ function lovr.draw()
   end
 end
 
--- draw functions
+function lovr.printText(text)
+  -- width
+end
