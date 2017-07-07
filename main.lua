@@ -5,7 +5,7 @@ function lovr.load()
   width, height = lovr.graphics.getDimensions()
 
   -- load model
-  environment =  lovr.graphics.newModel('assets/Room_block.obj')
+  -- environment =  lovr.graphics.newModel('assets/Room_block.obj')
 
   -- load audio
   sound = lovr.audio.newSource('assets/background.ogg')
@@ -56,7 +56,7 @@ function lovr.draw()
   sound:play()
 
   -- render environment given user's position in space
-  environment:draw(0, 0, -250, 1, 90)
+  -- environment:draw(0, 0, -250, 1, 90)
   -- lovr.graphics.setBackgroundColor(230, 240, 255, 200)
 
   -- if read mode on, render page with in front of camera
@@ -74,6 +74,15 @@ function lovr.draw()
   end
 end
 
-function lovr.printText(text)
-  -- width
+function lovr.printText(fullText)
+  -- iterate over string, end string once 60 spaces counted
+  local wordCount = 0
+  for word in fullText:gmatch("%w+") do
+    wordCount = wordCount + 1
+    textToDisplay = textToDisplay .. word
+    if wordCount == 60 then
+      return textToDisplay
+    end
+  end
+  -- load 60 words at a time
 end
