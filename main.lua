@@ -57,19 +57,20 @@ function lovr.draw()
 
   -- render environment given user's position in space
   environment:draw(0, 0, -250, 1, 90)
-  lovr.graphics.setBackgroundColor(230, 240, 255, 200)
+  -- lovr.graphics.setBackgroundColor(230, 240, 255, 200)
 
   -- if read mode on, render page with in front of camera
   -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
   -- font:setPixelDensity(50)
-  lovr.graphics.setColor(0, 0, 0, 255)
-  lovr.graphics.print(displayText, 100, 2, -10)
+  -- lovr.graphics.setColor(0, 0, 0, 255)
+  lovr.graphics.print(displayText, 0, 0, 0, 0.05, 0, 0, 0, 0, 10, left, top)
+  -- lovr.graphics.print(str, x, y, z, scale, angle, ax, ay, az, wrap, halign, valign)
   -- go to next line if LineWidth > width
 
   -- render UI
   for i, controller in pairs(controllers) do
     local x, y, z = controller:getPosition()
-    lovr.graphics.cube('line', x, y, z, 0.2, controller:getOrientation())
+    lovr.graphics.cube('line', x, y, z, 0.1, controller:getOrientation())
   end
 end
 
