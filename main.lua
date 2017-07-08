@@ -63,7 +63,7 @@ function lovr.draw()
   -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
   -- font:setPixelDensity(50)
   -- lovr.graphics.setColor(0, 0, 0, 255)
-  lovr.graphics.print(displayText, 0, 0, 0, 0.05, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(lovr.printText(displayText), 0, 2, 0, 0.05, 0, 0, 0, 0, 10, left, top)
   -- lovr.graphics.print(str, x, y, z, scale, angle, ax, ay, az, wrap, halign, valign)
   -- go to next line if LineWidth > width
 
@@ -77,11 +77,11 @@ end
 function lovr.printText(fullText)
   -- iterate over string, end string once 60 spaces counted
   local wordCount = 0
-  for word in fullText:gmatch("%w+") do
+  for word in fullText:gmatch("()%f[%w]") do
+    -- figure out gmatch
     wordCount = wordCount + 1
-    textToDisplay = textToDisplay .. word
-    if wordCount == 60 then
-      return textToDisplay
+    if wordCount > 500 then
+      return string.sub(fullText, 1, wordCount)
     end
   end
   -- load 60 words at a time
