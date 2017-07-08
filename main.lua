@@ -5,7 +5,9 @@ function lovr.load()
   width, height = lovr.graphics.getDimensions()
 
   -- load model
-  -- environment =  lovr.graphics.newModel('assets/Room_block.obj')
+  -- texture = lovr.graphics.newTexture('assets/texture.jpg')
+  environment =  lovr.graphics.newModel('assets/Room_block_small.obj', 'assets/texture.jpg')
+
 
   -- load audio
   sound = lovr.audio.newSource('assets/background.ogg')
@@ -24,18 +26,6 @@ function lovr.load()
 
 end
 
--- load functions
---
--- function getText(path)
---   print("hey this: " .. io.open(path))
---   -- local textFile = io.open(path)
---   -- print(textFile)
---   local bookText = textFile:read("*a")
---   -- print(bookText)
---   textFile:close()
---
---   return bookText
--- end
 
 function lovr.update()
   -- has user moved?
@@ -46,26 +36,21 @@ end
 
 
 function lovr.draw()
-  -- test
-  -- lovr.graphics.print("hello world!", 0, 0, -4)
-  -- lovr.graphics.print("test", 0, 1, -2)
-  -- lovr.graphics.plane('fill', -1, -1, -2, 1, .5, .5, .5)
-  -- lovr.graphics.cube('line', 0, 0, -2, .5, lovr.timer.getTime())
-
   -- play background sound
   sound:play()
 
   -- render environment given user's position in space
-  -- environment:draw(0, 0, -250, 1, 90)
-  -- lovr.graphics.setBackgroundColor(230, 240, 255, 200)
+  environment:draw(0, 0, 0, .4)
 
   -- if read mode on, render page with in front of camera
+  lovr.graphics.plane('line', 0, 1, 0, 1, 0, 0, 1)
+
+  -- render text
   -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
   -- font:setPixelDensity(50)
   -- lovr.graphics.setColor(0, 0, 0, 255)
-  lovr.graphics.print(lovr.printText(displayText), 0, 2, 0, 0.05, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(lovr.printText(displayText), 0, 1, 0, 0.05, 0, 0, 0, 0, 10, left, top)
   -- lovr.graphics.print(str, x, y, z, scale, angle, ax, ay, az, wrap, halign, valign)
-  -- go to next line if LineWidth > width
 
   -- render UI
   for i, controller in pairs(controllers) do
@@ -77,12 +62,13 @@ end
 function lovr.printText(fullText)
   -- iterate over string, end string once 60 spaces counted
   local wordCount = 0
-  for word in fullText:gmatch("()%f[%w]") do
-    -- figure out gmatch
-    wordCount = wordCount + 1
-    if wordCount > 500 then
-      return string.sub(fullText, 1, wordCount)
+  for word in fullText:gmatch("%f[%w]") do
+    -- while (wordCount < 500 or word ~= " ") do
+    local wordCount = 0
+    while wordCount < 500 do
+      wordCount = wordCount + 1
     end
+    return string.sub(fullText, 1, wordCount)
   end
   -- load 60 words at a time
 end
