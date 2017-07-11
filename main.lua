@@ -19,26 +19,46 @@ function lovr.load()
   READMODE = false
   START = 1
   NUMWORDS = 100
-  displayText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
+  displayText = lovr.filesystem.read('assets/room/part1.txt')
+  -- displayText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
 
 end
 
 
-function lovr.update(dt)
+function lovr.update()
   -- test
-  START = START + NUMWORDS * dt
+  -- START = START + NUMWORDS
   -- print(START)
   -- print(NUMWORDS)
 
-  -- has user clicked read mode?
-  if controllers:getAxis('trigger') == 1 then
-    READMODE = true
+  -- has user clicked read mode? (menu button)
+  for i, controller in ipairs(controllers) do
+    if controller:isDown('menu') then
+      READMODE = not READMODE
+    end
   end
 
   -- has user clicked next page?
-  if controllers:isDown('touchpad') == 1 then
-    START = START + NUMWORDS
+  if READMODE then
+    for i, controller in ipairs(controllers) do
+      -- clicking touchpad flips page forward
+      if controller:isDown('touchpad') then
+        START = START + (NUMWORDS / 10)
+        if START > string.len(displayText) then
+          START = string.len(displayText) - NUMWORDS
+        end
+      -- clicking trigger flips page backward
+      elseif controller:getAxis('trigger') == 1 then
+        START = START - NUMWORDS / 10
+        if START < 1 then
+          START = 1
+        end
+      end
+    end
+
+    -- if controller:getAxis('touchx') == 1 then
+    -- elseif controller:getAxis('touchy') == 1 then
   end
 
 end
