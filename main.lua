@@ -25,9 +25,9 @@ function lovr.load()
 end
 
 
-function lovr.update(dt)
+function lovr.update()
   -- test
-  START = START + NUMWORDS * dt
+  START = START + NUMWORDS
   -- print(START)
   -- print(NUMWORDS)
 
