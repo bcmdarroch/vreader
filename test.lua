@@ -1,11 +1,11 @@
-function printText(fullText, start)
+function printText(fullText, start, numWords)
   -- iterate over string, end string once 60 spaces counted
   local words = {}
   for word in fullText:gmatch("%S+") do
     table.insert(words, word)
   end
 
-  local finish = start + 10
+  local finish = start + numWords
   if finish > tableLength(words) then
     finish = tableLength(words)
   end
@@ -29,4 +29,11 @@ function tableLength(table)
   return count
 end
 
-print(printText('here I am listening to my brother my brother and me, trying not to fall asleep la la la la la hahaha. whoa whoa whoa!! hi', 5))
+text = 'here I am listening to my brother my brother and me, trying not to fall asleep la la la la la hahaha. whoa whoa whoa!! gotta test this thing hmm yep seems about right. '
+start = 1
+num = 5
+
+for i = 1, 10 do
+  print(printText(text, start, num))
+  start = start + num
+end
