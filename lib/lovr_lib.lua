@@ -16,10 +16,10 @@ function lovr.controllerremoved()
 end
 
 -- prints section of text
-function lovr.printText(fullText, start, fin)
-  -- adjust finish if needed
-  if fin > string.len(fullText) then
-    fin = string.len(fullText)
+function lovr.printText(fullText, start, numChars)
+  -- adjust numChars if needed
+  if numChars > string.len(fullText) then
+    numChars = string.len(fullText)
   end
 
   -- split by characters
@@ -27,13 +27,13 @@ function lovr.printText(fullText, start, fin)
   for char in fullText:gmatch(".") do
     i = i + 1
 
-    if i == fin then
+    if i == numChars then
       local next = string.sub(fullText, i + 1, i + 1)
 
       -- 1. end of word
       -- 2. in btwn words
       if char == " " or next == " " then
-        return string.sub(fullText, start, i)
+        return string.sub(fullText, start, start + i)
 
       -- 3. inside word
       elseif char ~= " " and next ~= " " then
@@ -43,7 +43,7 @@ function lovr.printText(fullText, start, fin)
           prev = string.sub(fullText, i - 1, i - 1)
         until prev == " "
 
-        return string.sub(fullText, start, i - 1)
+        return string.sub(fullText, start, start + i - 2)
       end
     end
   end

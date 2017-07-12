@@ -18,7 +18,7 @@ function lovr.load()
   -- load book/text
   READMODE = false
   START = 1
-  FIN = 600
+  NUMCHARS = 500
   -- displayText = lovr.filesystem.read('assets/room/part1.txt')
   displayText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
@@ -28,10 +28,9 @@ end
 
 function lovr.update(dt)
   -- test
-  -- START = START + FIN
-  -- FIN = START + FIN
+  -- START = START + NUMCHARS
   -- print(START)
-  -- print(FIN)
+  -- print(NUMCHARS)
 
   -- has user clicked read mode? (menu button)
   for i, controller in ipairs(controllers) do
@@ -45,13 +44,13 @@ function lovr.update(dt)
     for i, controller in ipairs(controllers) do
       -- clicking touchpad flips page forward
       if controller:isDown('touchpad') then
-        START = START + (FIN / 10)
+        START = START + 1
         if START > string.len(displayText) then
-          START = string.len(displayText) - FIN
+          START = string.len(displayText) - NUMCHARS
         end
       -- clicking trigger flips page backward
       elseif controller:getAxis('trigger') == 1 then
-        START = START - FIN / 10
+        START = START - 1
         if START < 1 then
           START = 1
         end
@@ -67,8 +66,8 @@ end
 
 function lovr.draw()
   -- mac testing:
-  lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
-  lovr.graphics.print(lovr.printText(displayText, START, FIN), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
+  -- lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
+  -- lovr.graphics.print(lovr.printText(displayText, START, NUMCHARS), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
 
   -- play background sound
   sound:play()
@@ -91,7 +90,7 @@ function lovr.draw()
     -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
     -- font:setPixelDensity(50)
     -- lovr.graphics.setColor(0, 0, 0, 255)
-    lovr.graphics.print(lovr.printText(displayText, START, FIN), 0, 1, 0, 0.05, 0, 0, 0, 0, 15, left, top)
+    lovr.graphics.print(lovr.printText(displayText, START, NUMCHARS), 0, 1, 0, 0.05, 0, 0, 0, 0, 15, left, top)
   end
 
 end
