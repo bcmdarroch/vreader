@@ -17,10 +17,10 @@ function lovr.load()
 
   -- load book/text
   READMODE = false
-  START = 600
-  FIN = 1201
-  displayText = lovr.filesystem.read('assets/room/part1.txt')
-  -- displayText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
+  START = 1
+  FIN = 600
+  -- displayText = lovr.filesystem.read('assets/room/part1.txt')
+  displayText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
 
 end
@@ -34,33 +34,33 @@ function lovr.update(dt)
   -- print(FIN)
 
   -- has user clicked read mode? (menu button)
-  -- for i, controller in ipairs(controllers) do
-  --   if controller:isDown('menu') then
-  --     READMODE = not READMODE
-  --   end
-  -- end
+  for i, controller in ipairs(controllers) do
+    if controller:isDown('menu') then
+      READMODE = not READMODE
+    end
+  end
 
   -- has user clicked next page?
-  -- if READMODE then
-  --   for i, controller in ipairs(controllers) do
-  --     -- clicking touchpad flips page forward
-  --     if controller:isDown('touchpad') then
-  --       START = START + (FIN / 10)
-  --       if START > string.len(displayText) then
-  --         START = string.len(displayText) - FIN
-  --       end
-  --     -- clicking trigger flips page backward
-  --     elseif controller:getAxis('trigger') == 1 then
-  --       START = START - FIN / 10
-  --       if START < 1 then
-  --         START = 1
-  --       end
-  --     end
-  --   end
+  if READMODE then
+    for i, controller in ipairs(controllers) do
+      -- clicking touchpad flips page forward
+      if controller:isDown('touchpad') then
+        START = START + (FIN / 10)
+        if START > string.len(displayText) then
+          START = string.len(displayText) - FIN
+        end
+      -- clicking trigger flips page backward
+      elseif controller:getAxis('trigger') == 1 then
+        START = START - FIN / 10
+        if START < 1 then
+          START = 1
+        end
+      end
+    end
 
     -- if controller:getAxis('touchx') == 1 then
     -- elseif controller:getAxis('touchy') == 1 then
-  -- end
+  end
 
 end
 
@@ -71,17 +71,17 @@ function lovr.draw()
   lovr.graphics.print(lovr.printText(displayText, START, FIN), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
 
   -- play background sound
-  -- sound:play()
+  sound:play()
 
   -- render environment given user's position in space
-  -- environment:draw(0, 0, 0, .4)
+  environment:draw(0, 0, 0, .4)
 
   -- render UI
- --  for i, controller in ipairs(controllers) do
- --   x, y, z = controller:getPosition()
- --   angle, ax, ay, az = controller:getOrientation()
- --   controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
- -- end
+  for i, controller in ipairs(controllers) do
+   x, y, z = controller:getPosition()
+   angle, ax, ay, az = controller:getOrientation()
+   controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
+ end
 
   -- if read mode on, render page with in front of camera
   if READMODE then
