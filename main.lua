@@ -18,7 +18,7 @@ function lovr.load()
   -- load book/text
   READMODE = false
   START = 1
-  NUMWORDS = 500
+  NUMWORDS = 505
   displayText = lovr.filesystem.read('assets/room/part1.txt')
   -- displayText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
@@ -28,9 +28,9 @@ end
 
 function lovr.update(dt)
   -- test
-  START = START + NUMWORDS * dt * .05
-  print(START)
-  print(NUMWORDS)
+  -- START = START + NUMWORDS * dt * .05
+  -- print(START)
+  -- print(NUMWORDS)
 
   -- has user clicked read mode? (menu button)
   -- for i, controller in ipairs(controllers) do

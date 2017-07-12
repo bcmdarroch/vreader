@@ -33,11 +33,21 @@ function lovr.printText(fullText, start, numWords)
   -- return table.concat(words, " ", start, finish)
 
   -- split by characters
-  -- local charCount = 0
+  local charCount = 0
   -- for char in fullText:gmatch("()%f[%w]") do
-  --   charCount = charCount + 1
-  --   if charCount > numWords then
-  --      return string.sub(fullText, start, start + charCount)
-  --    end
-  --  end
+  for char in fullText:gmatch(".") do
+    charCount = charCount + 1
+    if charCount > numWords then
+      -- 1. in btwn words
+      -- 2. at end of words
+      -- 3. inside word
+
+      -- check next character
+      -- if it's space, return charCount
+      -- if it's another letter, go backward
+      -- while prev character is not a space, subtract from charCount
+
+       return string.sub(fullText, start, start + charCount)
+     end
+   end
 end
