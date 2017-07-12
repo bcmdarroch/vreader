@@ -1,130 +1,39 @@
-function printText(fullText, start, numChars)
-  -- YUP: splits on characters
-    --  local charCount = 0
-    --  for char in fullText:gmatch("%w+") do
-    --   charCount = charCount + 1
-    --   if charCount > numChars then
-        -- print("start in function", start)
-        -- print("num in function", num)
-        -- return string.sub(fullText, start, numChars)
-    -- end
-  -- end
+local lust = require('lust')
+local describe, it, expect = lust.describe, lust.it, lust.expect
 
-  -- NOPE: iterate over string, end string once 60 spaces counted
-  --  local wordCount = 0
-  -- for word in fullText:gmatch("%w+") do
-  -- -- for word in fullText:gmatch("()%f[%w]") do
-  --   -- figure out gmatch
-  --    wordCount = wordCount + 1
-  --    textToDisplay = textToDisplay .. word
-  --   if wordCount == 60 then
-  --     return textToDisplay
-  --   if wordCount > 500 then
-  --     return string.sub(fullText, 1, wordCount)
-  --    end
-  --  end
+describe("printText", function()
+  lust.before(function()
+    text = [[me creating new accounts to get one month free trials
 
-  -- YUP: but no paragraphs preserved
-  --  local words = {}
-  -- for word in fullText:gmatch("%S+") do
-  --   -- count new lines!
-  --   table.insert(words, word)
-  -- end
-  --
-  -- -- adjust finish variable if needed
-  -- local finish = start + numWords
-  -- if finish > tableLength(words) then
-  --   finish = tableLength(words)
-  -- end
-  --
-  -- -- return section of text
-  -- return table.concat(words, " ", start, finish)
+    Hairy frogfish have excellent camouflage.
 
+    Why Romance languages gotta be so extra about verb conjugations]]
+  end)
 
-  -- MAYBE?
-  -- split by \n new paragraph
-  -- local paragraphs = {}
-    -- split text by word into table
-  -- local paragraphs = {}
-  -- for paragraph in fullText:gmatch("[^\r,]+") do
-  --   -- table.insert(paragraphs, paragraph)
-  --   local words = {}
-  --   for word in paragraph:gmatch("%S+") do
-  --     table.insert(words, word)
-  --   end
-  --
-  --   table.insert(paragraphs, words)
-  --   for k, v in pairs(paragraphs) do
-  --     for k, v in pairs(words) do
-  --       -- print(k, v)
-  --       para = table.concat(words, " ")
-  --     end
-  --     text = para .. "\n"
-  --   end
-  --   return text
-  -- end
+  it("returns substring of correct or lesser length", function()
+    local length = string.len(lovr.printText(text, 1, 11))
+    expect(length).to.equal(11)
+  end)
 
+  it("returns correct substring", function()
+    expect(lovr.printText(text, 1, 53)).to.equal('me creating new accounts to get one month free trials')
+  end)
 
-  -- NOPE: while (numWords < 500 or word ~= " ") do
-  --   local numWords = 0
-  --   while numWords < 10 do
-  --     numWords = numWords + 1
-  --   end
-  --   return string.sub(fullText, start, numWords)
-  -- end
-  -- load 60 words at a time
+  it("correctly handles if last character is end of a word", function()
+    expect(lovr.printText(text, 1, 41)).to.equal('me creating new accounts to get one month')
+  end)
 
-  -- NOPE: until string[numWords] is a space
-  -- print("outside loop", numWords)
-  -- while string.sub(fullText, numWords, numWords):match("%w+") do
-  --   print("before", numWords)
-  --   numWords = numWords - 1
-  --   print("after", numWords)
-  -- end
-  -- -- add 1 to wordCount
-  -- return string.sub(fullText, start, numWords)
+  it("correctly handles if last character is between words", function()
+    expect(lovr.printText(text, 1, 110)).to.equal([[me creating new accounts to get one month free trials
 
+    Hairy frogfish have excellent camouflage.
 
-  -- NOPE
-  -- local wordCount = 0
-  -- for word in fullText:gmatch("%S+") do
-  --   -- repeat
-  --   if wordCount < numWords then
-  --     wordCount = wordCount + 1
-  --     print("word: ", word)
-  --   -- until wordCount > numWords
-  --   else
-  --     -- split = word:match'^.*()/'
-  --     -- split = string.find(word, "/[^/]*$")
-  --     -- find index of last character in word (how??)
-  --     print('split: ', split)
-  --     return string.sub(fullText, start, split)
-  --   end
-  -- end
-end
+    Why ]])
+  end)
 
-function tableLength(table)
-  local count = 0
-  for _ in pairs(table) do count = count + 1 end
-  return count
-end
+  it("correctly handles if last character is inside word", function()
+    expect(lovr.printText(text, 1, 70)).to.equal([[me creating new accounts to get one month free trials
 
-text = [[ here I am listening to my brother my brother and me, trying not to fall asleep la la la la la hahaha.
-
-whoa whoa whoa!!
-
-gotta test this thing hmm yep seems about right.
-
-hiiya new line here i am ]]
-start = 1
-num = 5
-
-for i = 1, 30 do
-  -- print("'" .. printText(text, start, num) .. "'")
-  -- start = start + num
-  -- print("what the text", text)
-  -- print("start: ", start)
-  -- print("num words: ", num)
-
-  print(string.sub(text, i, i + 5))
-end
+    Hairy ]])
+  end)
+end)
