@@ -16,22 +16,35 @@ function lovr.controllerremoved()
 end
 
 -- prints section of text
-function lovr.printText(fullText, start, numChars)
+function lovr.printText(fullText, start, fin)
+  -- adjust finish if needed
+  if fin > string.len(fullText) then
+    fin = string.len(fullText)
+  end
+
   -- split by characters
-  local charCount = 0
+  local i = 0
   for char in fullText:gmatch(".") do
-    charCount = charCount + 1
-    if charCount > numChars then
-      -- 1. in btwn words
-      -- 2. at end of words
+    i = i + 1
+
+    if i == fin then
+      local next = string.sub(fullText, i + 1, i + 1)
+
+      -- 1. end of word
+      -- 2. in btwn words
+      if char == " " or next == " " then
+        return string.sub(fullText, start, i)
+
       -- 3. inside word
+      elseif char ~= " " and next ~= " " then
+        local prev = ""
+        repeat
+          i = i - 1
+          prev = string.sub(fullText, i - 1, i - 1)
+        until prev == " "
 
-      -- check next character
-      -- if it's space, return charCount
-      -- if it's another letter, go backward
-      -- while prev character is not a space, subtract from charCount
-
-       return string.sub(fullText, start, start + charCount)
-     end
-   end
+        return string.sub(fullText, start, i - 1)
+      end
+    end
+  end
 end
