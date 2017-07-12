@@ -18,18 +18,26 @@ end
 -- prints section of text
 function lovr.printText(fullText, start, numWords)
   -- split text by word into table
-  local words = {}
-  for word in fullText:gmatch("%S+") do
-    -- count new lines!
-    table.insert(words, word)
-  end
+  -- local words = {}
+  -- for word in fullText:gmatch("%S+") do
+  --   table.insert(words, word)
+  -- end
+  --
+  -- -- adjust finish variable if needed
+  -- local finish = start + numWords
+  -- if finish > tableLength(words) then
+  --   finish = tableLength(words)
+  -- end
+  --
+  -- -- return section of text
+  -- return table.concat(words, " ", start, finish)
 
-  -- adjust finish variable if needed
-  local finish = start + numWords
-  if finish > tableLength(words) then
-    finish = tableLength(words)
-  end
-
-  -- return section of text
-  return table.concat(words, " ", start, finish)
+  -- split by characters
+  -- local charCount = 0
+  -- for char in fullText:gmatch("()%f[%w]") do
+  --   charCount = charCount + 1
+  --   if charCount > numWords then
+  --      return string.sub(fullText, start, start + charCount)
+  --    end
+  --  end
 end

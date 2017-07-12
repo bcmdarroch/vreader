@@ -18,7 +18,7 @@ function lovr.load()
   -- load book/text
   READMODE = false
   START = 1
-  NUMWORDS = 100
+  NUMWORDS = 500
   displayText = lovr.filesystem.read('assets/room/part1.txt')
   -- displayText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
@@ -26,66 +26,61 @@ function lovr.load()
 end
 
 
-function lovr.update()
+function lovr.update(dt)
   -- test
-  -- START = START + NUMWORDS
-  -- print(START)
-  -- print(NUMWORDS)
+  START = START + NUMWORDS * dt * .05
+  print(START)
+  print(NUMWORDS)
 
   -- has user clicked read mode? (menu button)
-  for i, controller in ipairs(controllers) do
-    if controller:isDown('menu') then
-      READMODE = not READMODE
-    end
-  end
+  -- for i, controller in ipairs(controllers) do
+  --   if controller:isDown('menu') then
+  --     READMODE = not READMODE
+  --   end
+  -- end
 
   -- has user clicked next page?
-  if READMODE then
-    for i, controller in ipairs(controllers) do
-      -- clicking touchpad flips page forward
-      if controller:isDown('touchpad') then
-        START = START + (NUMWORDS / 10)
-        if START > string.len(displayText) then
-          START = string.len(displayText) - NUMWORDS
-        end
-      -- clicking trigger flips page backward
-      elseif controller:getAxis('trigger') == 1 then
-        START = START - NUMWORDS / 10
-        if START < 1 then
-          START = 1
-        end
-      end
-    end
+  -- if READMODE then
+  --   for i, controller in ipairs(controllers) do
+  --     -- clicking touchpad flips page forward
+  --     if controller:isDown('touchpad') then
+  --       START = START + (NUMWORDS / 10)
+  --       if START > string.len(displayText) then
+  --         START = string.len(displayText) - NUMWORDS
+  --       end
+  --     -- clicking trigger flips page backward
+  --     elseif controller:getAxis('trigger') == 1 then
+  --       START = START - NUMWORDS / 10
+  --       if START < 1 then
+  --         START = 1
+  --       end
+  --     end
+  --   end
 
     -- if controller:getAxis('touchx') == 1 then
     -- elseif controller:getAxis('touchy') == 1 then
-  end
+  -- end
 
 end
 
 
 function lovr.draw()
   -- mac testing:
-  -- lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
-  -- lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 0, -1, 0.05, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
+  lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
 
   -- play background sound
-  sound:play()
+  -- sound:play()
 
   -- render environment given user's position in space
-  environment:draw(0, 0, 0, .4)
+  -- environment:draw(0, 0, 0, .4)
 
   -- render UI
-  -- for i, controller in pairs(controllers) do
-  --   local x, y, z = controller:getPosition()
-  --   lovr.graphics.cube('line', x, y, z, 0.1, controller:getOrientation())
-  -- end
-
-  for i, controller in ipairs(controllers) do
-   x, y, z = controller:getPosition()
-   angle, ax, ay, az = controller:getOrientation()
-   controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
- end
+ --  for i, controller in ipairs(controllers) do
+ --   x, y, z = controller:getPosition()
+ --   angle, ax, ay, az = controller:getOrientation()
+ --   controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
+ -- end
 
   -- if read mode on, render page with in front of camera
   if READMODE then
@@ -95,7 +90,7 @@ function lovr.draw()
     -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
     -- font:setPixelDensity(50)
     -- lovr.graphics.setColor(0, 0, 0, 255)
-    lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 1, 0, 0.05, 0, 0, 0, 0, 10, left, top)
+    lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 1, 0, 0.05, 0, 0, 0, 0, 15, left, top)
   end
 
 end
