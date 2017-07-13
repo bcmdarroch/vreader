@@ -1,7 +1,7 @@
 -- LOVR callbacks
 function lovr.load()
+  require('lib/book')
   require('lib/lua_lib')
-  require('lib/lovr_lib')
 
   -- width, height = lovr.graphics.getDimensions()
 
@@ -33,33 +33,47 @@ function lovr.update()
   -- print(NUMWORDS)
 
   -- has user clicked read mode? (menu button)
-  for i, controller in ipairs(controllers) do
-    if controller:isDown('menu') then
-      READMODE = not READMODE
-    end
-  end
+  -- for i, controller in ipairs(controllers) do
+  --   if controller:isDown('menu') then
+  --     READMODE = not READMODE
+  --   end
+  -- end
 
   -- has user clicked next page?
-  if READMODE then
-    for i, controller in ipairs(controllers) do
+  -- if READMODE then
+    -- for i, controller in ipairs(controllers) do
+    --   if controller:controllerpressed('touchpad') then
+    --     if controller:getAxis('touchx') > 0 then
+    --       START = START + NUMWORDS
+    --       --   if START > string.len(displayText) then
+    --       --     START = string.len(displayText) - NUMWORDS
+    --       --   end
+    --     elseif controller:getAxis('touchx') < 0 then
+    --       START = START - NUMWORDS
+    --       if START < 1 then
+    --         START = 1
+    --       end
+    --     end
+    --   end
+
       -- clicking touchpad flips page forward
-      if controller:isDown('touchpad') then
-        START = START + (NUMWORDS / 10)
-        if START > string.len(displayText) then
-          START = string.len(displayText) - NUMWORDS
-        end
-      -- clicking trigger flips page backward
-      elseif controller:getAxis('trigger') == 1 then
-        START = START - NUMWORDS / 10
-        if START < 1 then
-          START = 1
-        end
-      end
-    end
+      -- if controller:isDown('touchpad') then
+      --   START = START + (NUMWORDS / 10)
+      --   if START > string.len(displayText) then
+      --     START = string.len(displayText) - NUMWORDS
+      --   end
+      -- -- clicking trigger flips page backward
+      -- elseif controller:getAxis('trigger') == 1 then
+      --   START = START - NUMWORDS / 10
+      --   if START < 1 then
+      --     START = 1
+      --   end
+      -- end
+    -- end
 
     -- if controller:getAxis('touchx') == 1 then
     -- elseif controller:getAxis('touchy') == 1 then
-  end
+  -- end
 
 end
 
@@ -98,4 +112,42 @@ function lovr.draw()
     lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 1, 0, 0.05, 0, 0, 0, 0, 10, left, top)
   end
 
+end
+
+
+-- checks for controllers
+function refreshControllers()
+  controllers = lovr.headset.getControllers()
+  controllerModels = {}
+  for i, controller in ipairs(controllers) do
+    controllerModels[i] = controller:newModel()
+  end
+end
+
+function lovr.controlleradded()
+  refreshControllers()
+end
+
+function lovr.controllerremoved()
+  refreshControllers()
+end
+
+function lovr.controllerpressed(controller, button)
+  if button = 'menu' then
+    READMODE = not READMODE
+  end
+
+  if button == 'touchpad' then
+    if controller:getAxis('touchx') > 0 then
+      START = START + NUMWORDS
+      if START > string.len(displayText) then
+        START = string.len(displayText) - NUMWORDS
+      end
+    elseif controller:getAxis('touchx') < 0 then
+      START = START - NUMWORDS
+      if START < 1 then
+        START = 1
+      end
+    end
+  end
 end
