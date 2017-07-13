@@ -1,3 +1,31 @@
+-- create book class
+Book = {}
+Book.__index = Book
+
+function Book.new(title, author, text)
+  local self = setmetatable({}, Book)
+  self.title = title
+  self.author = author
+  self.text = parseTxt(text)
+  return self
+end
+
+function Book:setTitle(newTitle)
+  self.title = newTitle
+end
+
+function Book:setAuthor(newAuthor)
+  self.author = newAuthor
+end
+
+function Book:parseTxt(text)
+  -- parse text by new lines
+  -- parse new lines by word, save them to pages in table (index = page num)
+
+  -- or divide text into pages based on max characters per line, only 10 lines per page
+end
+
+
 -- book load
 
 -- book update
@@ -6,6 +34,7 @@
 
 -- prints section of text
 function lovr.printText(fullText, start, numWords)
+  -- first implementation
   -- split text by word into table
   local words = {}
   for word in fullText:gmatch("%S+") do
@@ -21,4 +50,5 @@ function lovr.printText(fullText, start, numWords)
 
   -- return section of text
   return table.concat(words, " ", start, finish)
+
 end

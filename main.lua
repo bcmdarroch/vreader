@@ -15,13 +15,17 @@ function lovr.load()
   -- load controllers
   refreshControllers()
 
-  -- load book/text
+  -- load book/text (without book class)
   READMODE = false
   START = 1
   NUMWORDS = 100
   displayText = lovr.filesystem.read('assets/room/part1.txt')
   -- displayText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
+
+  -- load book w book class
+  bookText = lovr.filesystem.read('assets/room/part1.txt')
+  book = Book.new("A Room of One's Own", "Virginia Woolf", bookText)
 
 end
 
@@ -32,8 +36,21 @@ function lovr.update()
   -- print(START)
   -- print(NUMWORDS)
 
+
+    -- if controller:getAxis('trigger') == 1 and controller colliding with plane collider (wider than plane)
+       -- change plane/text origin to controller's origin + offset (translate position)
+       -- translate rotation (keep forward vector of fixed toward headset) 
+     -- end
 end
 
+-- lovr.controllerPlaneCollide
+-- give plane collider, controller sphere
+-- get controller position
+-- get distance btwn plane and controller origins (position - position)
+-- if distance < CONSTANT
+-- return true
+-- else
+-- return false
 
 function lovr.draw()
   -- mac testing:
