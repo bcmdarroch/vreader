@@ -33,28 +33,28 @@ function lovr.update()
   -- print(NUMWORDS)
 
   -- has user clicked read mode? (menu button)
-  for i, controller in ipairs(controllers) do
-    if controller:isDown('menu') then
-      READMODE = not READMODE
-    end
-  end
+  -- for i, controller in ipairs(controllers) do
+  --   if controller:isDown('menu') then
+  --     READMODE = not READMODE
+  --   end
+  -- end
 
   -- has user clicked next page?
   if READMODE then
-    for i, controller in ipairs(controllers) do
-      -- clicking touchpad flips page forward
-      if controller:isDown('touchpad') then
-        START = START + (NUMWORDS / 10)
-        if START > string.len(displayText) then
-          START = string.len(displayText) - NUMWORDS
-        end
-      -- clicking trigger flips page backward
-      elseif controller:getAxis('trigger') == 1 then
-        START = START - NUMWORDS / 10
-        if START < 1 then
-          START = 1
-        end
-      end
+    -- for i, controller in ipairs(controllers) do
+    --   -- clicking touchpad flips page forward
+    --   if controller:isDown('touchpad') then
+    --     START = START + (NUMWORDS / 10)
+    --     if START > string.len(displayText) then
+    --       START = string.len(displayText) - NUMWORDS
+    --     end
+    --   -- clicking trigger flips page backward
+    --   elseif controller:getAxis('trigger') == 1 then
+    --     START = START - NUMWORDS / 10
+    --     if START < 1 then
+    --       START = 1
+    --     end
+    --   end
     end
 
     -- if controller:getAxis('touchx') == 1 then
@@ -81,11 +81,11 @@ function lovr.draw()
   --   lovr.graphics.cube('line', x, y, z, 0.1, controller:getOrientation())
   -- end
 
-  for i, controller in ipairs(controllers) do
-   x, y, z = controller:getPosition()
-   angle, ax, ay, az = controller:getOrientation()
-   controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
- end
+ --  for i, controller in ipairs(controllers) do
+ --   x, y, z = controller:getPosition()
+ --   angle, ax, ay, az = controller:getOrientation()
+ --   controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
+ -- end
 
   -- if read mode on, render page with in front of camera
   if READMODE then
