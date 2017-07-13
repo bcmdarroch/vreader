@@ -55,12 +55,12 @@ Hairy frogfish have excellent camouflage.]]
 
 -- Hairy ]]
 
-local start = 1
-for i = 1, 6 do
-  print('Test ' .. i .. '', "'" .. printText(text, start, 15) .. "'")
-  start = start + 15
-  print("~~~~~~~~~~~~")
-end
+-- local start = 1
+-- for i = 1, 6 do
+--   print('Test ' .. i .. '', "'" .. printText(text, start, 15) .. "'")
+--   start = start + 15
+--   print("~~~~~~~~~~~~")
+-- end
 
 
 

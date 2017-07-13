@@ -47,16 +47,11 @@ function lovr.draw()
   environment:draw(0, 0, 0, .4)
 
   -- render UI
-  -- for i, controller in pairs(controllers) do
-  --   local x, y, z = controller:getPosition()
-  --   lovr.graphics.cube('line', x, y, z, 0.1, controller:getOrientation())
-  -- end
-
- --  for i, controller in ipairs(controllers) do
- --   x, y, z = controller:getPosition()
- --   angle, ax, ay, az = controller:getOrientation()
- --   controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
- -- end
+  for i, controller in ipairs(controllers) do
+   x, y, z = controller:getPosition()
+   angle, ax, ay, az = controller:getOrientation()
+   controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
+ end
 
   -- if read mode on, render page with in front of camera
   if READMODE then
@@ -90,12 +85,11 @@ function lovr.controllerremoved()
 end
 
 function lovr.controllerpressed(controller, button)
-  if button = 'menu' then
+  if button == 'menu' then
     READMODE = not READMODE
   end
 
   if button == 'touchpad' then
-    
     if controller:getAxis('touchx') > 0 then
       START = START + NUMWORDS
       if START > string.len(displayText) then
@@ -107,6 +101,7 @@ function lovr.controllerpressed(controller, button)
         START = 1
       end
     end
+
   end
 
 end
