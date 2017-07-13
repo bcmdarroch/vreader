@@ -95,6 +95,7 @@ function lovr.controllerpressed(controller, button)
   end
 
   if button == 'touchpad' then
+    
     if controller:getAxis('touchx') > 0 then
       START = START + NUMWORDS
       if START > string.len(displayText) then
@@ -107,4 +108,5 @@ function lovr.controllerpressed(controller, button)
       end
     end
   end
+
 end
