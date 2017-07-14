@@ -28,15 +28,13 @@ function lovr.load()
   bookText = lovr.filesystem.read('assets/room/part1.txt')
   book = Book.new("A Room of One's Own", "Virginia Woolf", bookText)
   BX, BY, BZ = 0, 1, 0
-  -- BAX
-  -- BAY
-  -- BAZ
+  BAX, BAY, BAZ = 0, 0, 0
 
   -- load physics
-  world = lovr.physics.newWorld()
+  -- world = lovr.physics.newWorld()
   -- bookCollider = world:newBoxCollider(BX, BY, BZ, 1, 1, 0.5)
 
-  testCollider = world:newBoxCollider(BX, BY, BZ, 1, 1, 0.5)
+  -- testCollider = world:newBoxCollider(BX, BY, BZ, 1, 1, 0.5)
 end
 
 function lovr.update()
@@ -47,16 +45,20 @@ function lovr.update()
 
 
   for i, controller in ipairs(controllers) do
-    if controller:getAxis('trigger') == 1 then
-      print("in plane?", lovr.controllerPlaneCollide(controller))
+    -- if trigger down and controller within book plane
+    if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
+      -- print("in plane!", lovr.controllerPlaneCollide(controller))
+      -- change book position
+      BX, BY, BZ = controller:getPosition()
+
+      -- translate rotation (keep forward vector of fixed toward headset)
+      BAX, BAY, BAZ = controller:getOrientation()
+      lovr.graphics.rotate(.5, BAX, BAY, BAZ)
     end
   end
-  -- if controller:getAxis('trigger') == 1 and controllerPlaneCollide == true
      -- change plane/text origin to controller's origin + offset (translate position)
       -- x, y, z = controller:get position + offset
-     -- translate rotation (keep forward vector of fixed toward headset)
-      -- xa, ya = ...
-   -- end
+
 end
 
 function lovr.draw()
@@ -65,8 +67,7 @@ function lovr.draw()
   -- lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
 
   -- origin
-  lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
-  lovr.graphics.sphere(1, 0, 0, .1, 0, 0, 1)
+  -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
 
   -- play background sound
   -- sound:play()
@@ -86,7 +87,7 @@ function lovr.draw()
   -- if read mode on, render page with in front of camera
   if READMODE then
     -- without book class
-    lovr.graphics.plane('line', 0, 1, 0, 1, 0, 0, 1)
+    lovr.graphics.plane('line', BX, BY, BZ, 1, 0, 0, 1)
 
     -- render text
     -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
@@ -145,18 +146,12 @@ end
 function lovr.controllerPlaneCollide(controller)
   -- get controller position
   conX, conY, conZ = controller:getPosition()
-  -- conAngle, conAX, conAY, conAZ = controller:getOrientation()
     -- print("controller points", conX, conY, conZ, conAngle, conAX, conAY, conAZ)
 
-  -- get book collider position
-  bookX, bookY, bookZ = testCollider:getPosition()
-  -- bookAngle, bookAX, bookAY, bookAZ = testCollider:getOrientation()
-    -- print("book points", bookX, bookY, bookZ, bookAngle, bookAX, bookAY, bookAZ)
-
   -- get distance btwn plane and controller origins (position - position)
-  deltaX = bookX - conX
-  deltaY = bookY - conY
-  deltaZ = bookZ - conZ
+  deltaX = BX - conX
+  deltaY = BY - conY
+  deltaZ = BZ - conZ
   d = deltaX^2 + deltaY^2 + deltaZ^2
   distance = math.sqrt(d)
 
