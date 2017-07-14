@@ -27,16 +27,16 @@ function lovr.load()
   -- load book w book class
   bookText = lovr.filesystem.read('assets/room/part1.txt')
   book = Book.new("A Room of One's Own", "Virginia Woolf", bookText)
-  -- BOOKX
-  -- BOOKY
-  -- BOOKZ
-  -- BOOKAX
-  -- BOOKAY
-  -- BOOKAZ
+  BX, BY, BZ = 0, 1, 0
+  -- BAX
+  -- BAY
+  -- BAZ
 
   -- load physics
   world = lovr.physics.newWorld()
-  bookCollider = world:newBoxCollider()
+  -- bookCollider = world:newBoxCollider(BX, BY, BZ, 1, 1, 0.5)
+
+  testCollider = world:newBoxCollider(BX, BY, BZ, 1, 1, 0.5)
 end
 
 function lovr.update()
@@ -46,31 +46,42 @@ function lovr.update()
   -- print(NUMWORDS)
 
 
-    -- if controller:getAxis('trigger') == 1 and controllerPlaneCollide == true
-       -- change plane/text origin to controller's origin + offset (translate position)
-        -- x, y, z = controller:get position + offset
-       -- translate rotation (keep forward vector of fixed toward headset)
-        -- xa, ya = ...
-     -- end
+  for i, controller in ipairs(controllers) do
+    if controller:getAxis('trigger') == 1 then
+      print("in plane?", lovr.controllerPlaneCollide(controller))
+    end
+  end
+  -- if controller:getAxis('trigger') == 1 and controllerPlaneCollide == true
+     -- change plane/text origin to controller's origin + offset (translate position)
+      -- x, y, z = controller:get position + offset
+     -- translate rotation (keep forward vector of fixed toward headset)
+      -- xa, ya = ...
+   -- end
 end
 
 function lovr.draw()
   -- mac testing:
-  lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
-  lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
+  -- lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
+  -- lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
+
+  -- origin
+  lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
+  lovr.graphics.sphere(1, 0, 0, .1, 0, 0, 1)
 
   -- play background sound
   -- sound:play()
 
   -- render environment given user's position in space
-  -- environment:draw(0, 0, 0, .4)
+  environment:draw(0, 0, 0, .4)
 
   -- render UI
   for i, controller in ipairs(controllers) do
    x, y, z = controller:getPosition()
    angle, ax, ay, az = controller:getOrientation()
    controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
- end
+
+  --  cube = lovr.graphics.cube('line', x, y, z, 0.1, angle, ax, ay, az)
+  end
 
   -- if read mode on, render page with in front of camera
   if READMODE then
@@ -81,10 +92,10 @@ function lovr.draw()
     -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
     -- font:setPixelDensity(50)
     -- lovr.graphics.setColor(0, 0, 0, 255)
-    lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 1, 0, 0.05, 0, 0, 0, 0, 10, left, top)
+    lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), BX, BY, BZ, 0.05, 0, 0, 0, 0, 10, left, top)
 
     -- with book class
-    -- book:draw(BOOKX, BOOKY, BOOKZ, size, angle, BOOKAX, BOOKAY, BOOKAZ, WRAP, left, top)
+    -- book:draw(BX, BY, BZ, size, angle, BAX, BAY, BAZ, WRAP, left, top)
   end
 
 end
@@ -131,11 +142,27 @@ end
 
 
 -- control book position
-function lovr.controllerPlaneCollide()
+function lovr.controllerPlaneCollide(controller)
   -- get controller position
+  conX, conY, conZ = controller:getPosition()
+  -- conAngle, conAX, conAY, conAZ = controller:getOrientation()
+    -- print("controller points", conX, conY, conZ, conAngle, conAX, conAY, conAZ)
+
+  -- get book collider position
+  bookX, bookY, bookZ = testCollider:getPosition()
+  -- bookAngle, bookAX, bookAY, bookAZ = testCollider:getOrientation()
+    -- print("book points", bookX, bookY, bookZ, bookAngle, bookAX, bookAY, bookAZ)
+
   -- get distance btwn plane and controller origins (position - position)
-  -- if distance < CONSTANT
-  -- return true
-  -- else
-  -- return false
+  deltaX = bookX - conX
+  deltaY = bookY - conY
+  deltaZ = bookZ - conZ
+  d = deltaX^2 + deltaY^2 + deltaZ^2
+  distance = math.sqrt(d)
+
+  if distance < 0.5 then
+    return true
+  else
+    return false
+  end
 end
