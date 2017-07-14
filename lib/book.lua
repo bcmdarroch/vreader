@@ -2,10 +2,10 @@
 Book = {}
 
 function Book:new(title, author, text)
-  self.__index = self
-  self.title = title
-  self.author = author
-  self.text = parseTxt(text)
+  -- self.__index = self
+  -- self.title = title
+  -- self.author = author
+  -- self.text = parseTxt(text)
   return self
 end
 
@@ -18,10 +18,28 @@ function Book:setAuthor(newAuthor)
 end
 
 function Book:parseTxt(text)
-  -- parse text by new lines
+  -- first implementation: split text by word into table
+  local words = {}
+  for word in fullText:gmatch("%S+") do
+    -- count new lines!
+    table.insert(words, word)
+  end
+
+  -- adjust finish variable if needed
+  local finish = start + numWords
+  if finish > tableLength(words) then
+    finish = tableLength(words)
+  end
+
+  -- return section of text
+  return table.concat(words, " ")
+
+
+  -- second implementation: parse text by new lines
   -- parse new lines by word, save them to pages in table (index = page num)
 
-  -- or divide text into pages based on max characters per line, only 10 lines per page
+
+  -- third implementation: divide text into pages based on max characters per line, only 10 lines per page
 end
 
 

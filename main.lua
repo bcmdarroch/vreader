@@ -46,7 +46,7 @@ function lovr.update()
   -- print(NUMWORDS)
 
 
-    -- if controller:getAxis('trigger') == 1 and controller colliding with plane collider (wider than plane)
+    -- if controller:getAxis('trigger') == 1 and controllerPlaneCollide == true
        -- change plane/text origin to controller's origin + offset (translate position)
         -- x, y, z = controller:get position + offset
        -- translate rotation (keep forward vector of fixed toward headset)
@@ -56,14 +56,14 @@ end
 
 function lovr.draw()
   -- mac testing:
-  -- lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
-  -- lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 0, -1, 0.05, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
+  lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
 
   -- play background sound
-  sound:play()
+  -- sound:play()
 
   -- render environment given user's position in space
-  environment:draw(0, 0, 0, .4)
+  -- environment:draw(0, 0, 0, .4)
 
   -- render UI
   for i, controller in ipairs(controllers) do
