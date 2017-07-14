@@ -1,9 +1,8 @@
 -- create book class
 Book = {}
-Book.__index = Book
 
-function Book.new(title, author, text)
-  local self = setmetatable({}, Book)
+function Book:new(title, author, text)
+  self.__index = self
   self.title = title
   self.author = author
   self.text = parseTxt(text)

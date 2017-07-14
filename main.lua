@@ -1,4 +1,4 @@
--- LOVR callbacks
+-- main LOVR callbacks
 function lovr.load()
   require('lib/book')
   require('lib/lua_lib')
@@ -14,6 +14,7 @@ function lovr.load()
 
   -- load controllers
   refreshControllers()
+  -- controller sphere (collider)
 
   -- load book/text (without book class)
   READMODE = false
@@ -26,9 +27,17 @@ function lovr.load()
   -- load book w book class
   bookText = lovr.filesystem.read('assets/room/part1.txt')
   book = Book.new("A Room of One's Own", "Virginia Woolf", bookText)
+  -- BOOKX
+  -- BOOKY
+  -- BOOKZ
+  -- BOOKAX
+  -- BOOKAY
+  -- BOOKAZ
 
+  -- load physics
+  world = lovr.physics.newWorld()
+  bookCollider = world:newBoxCollider()
 end
-
 
 function lovr.update()
   -- test
@@ -39,18 +48,11 @@ function lovr.update()
 
     -- if controller:getAxis('trigger') == 1 and controller colliding with plane collider (wider than plane)
        -- change plane/text origin to controller's origin + offset (translate position)
-       -- translate rotation (keep forward vector of fixed toward headset) 
+        -- x, y, z = controller:get position + offset
+       -- translate rotation (keep forward vector of fixed toward headset)
+        -- xa, ya = ...
      -- end
 end
-
--- lovr.controllerPlaneCollide
--- give plane collider, controller sphere
--- get controller position
--- get distance btwn plane and controller origins (position - position)
--- if distance < CONSTANT
--- return true
--- else
--- return false
 
 function lovr.draw()
   -- mac testing:
@@ -72,6 +74,7 @@ function lovr.draw()
 
   -- if read mode on, render page with in front of camera
   if READMODE then
+    -- without book class
     lovr.graphics.plane('line', 0, 1, 0, 1, 0, 0, 1)
 
     -- render text
@@ -79,12 +82,15 @@ function lovr.draw()
     -- font:setPixelDensity(50)
     -- lovr.graphics.setColor(0, 0, 0, 255)
     lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 1, 0, 0.05, 0, 0, 0, 0, 10, left, top)
+
+    -- with book class
+    -- book:draw(BOOKX, BOOKY, BOOKZ, size, angle, BOOKAX, BOOKAY, BOOKAZ, WRAP, left, top)
   end
 
 end
 
 
--- checks for controllers
+-- controller functions
 function refreshControllers()
   controllers = lovr.headset.getControllers()
   controllerModels = {}
@@ -121,4 +127,15 @@ function lovr.controllerpressed(controller, button)
 
   end
 
+end
+
+
+-- control book position
+function lovr.controllerPlaneCollide()
+  -- get controller position
+  -- get distance btwn plane and controller origins (position - position)
+  -- if distance < CONSTANT
+  -- return true
+  -- else
+  -- return false
 end
