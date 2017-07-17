@@ -12,7 +12,7 @@ function parseTxt(text)
     -- 1. end of word
     -- 2. in btwn words
     if char == " " or next == " " then
-      -- add string.sub(text, i, j) to text table
+      table.insert(textTable, i, j)
 
     -- 3. inside word
     elseif char ~= " " and next ~= " " then
@@ -21,11 +21,12 @@ function parseTxt(text)
         j = j - 1
         prev = string.sub(text, j - 1, j - 1)
       until prev == " "
-      -- add string.sub(text, i, i) to text table
+      j = j - 1
+      table.insert(textTable, i, j)
     end
 
-    -- i = j
-    -- j = i + 50
+    i = j
+    j = i + 50
   end
 
   return textTable
@@ -35,6 +36,8 @@ end
 text = [[me creating new accounts to get one month free trials
 
 Hairy frogfish have excellent camouflage.]]
+
+print("test", parseTxt(text)[1])
 
 -- function printText(fullText, start, numChars)
 --   -- split by characters
