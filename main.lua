@@ -60,7 +60,8 @@ function lovr.update()
 
       -- translate rotation (keep forward vector of fixed toward headset)
       angle, BAX, BAY, BAZ = controller:getOrientation()
-      lovr.graphics.rotate(angle, BAX, BAY, BAZ)
+      -- lovr.graphics.rotate(angle, BAX, BAY, BAZ)
+      transform = lovr.math.newTransform(BX, BY, BZ, 0, 0, 0, angle, BAX, BAY, BAZ)
     end
   end
 
