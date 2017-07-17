@@ -97,7 +97,7 @@ function lovr.draw()
     -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
     -- font:setPixelDensity(50)
     -- lovr.graphics.setColor(0, 0, 0, 255)
-    lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), BX, BY, BZ, 0.05, 0, 0, 0, 0, 10, left, top)
+    lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), BX, BY, BZ, 0.05, angle, BAX, BAY, BAZ, 10, left, top)
 
     -- with book class
     -- book:draw('line', BX, BY, BZ, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
