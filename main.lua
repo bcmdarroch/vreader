@@ -91,7 +91,8 @@ function lovr.draw()
   -- if read mode on, render page with in front of camera
   if READMODE then
     -- without book class
-    lovr.graphics.plane('line', BX, BY, BZ, 1, 0, 0, 1)
+    -- lovr.graphics.plane('line', BX, BY, BZ, 1, 0, 0, 1)
+    lovr.graphics.box('line', BX, BY, BZ, 1, 1, .01, angle, BAX, BAY, BAZ)
 
     -- render text
     -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
