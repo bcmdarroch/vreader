@@ -1,17 +1,12 @@
 -- create book class
 Book = {}
 
-function Book:new(title, author, text)
-  -- self.__index = self
-  -- self.title = title
-  -- self.author = author
-  -- self.text = text
+function Book:init(title, author, text)
+  self.title = title
+  self.author = author
+  self.text = text
   -- self.text = parseTxt(text)
-  -- return self
-end
-
--- book load
-function Book:load()
+  return self
 end
 
 -- book update
@@ -21,7 +16,11 @@ end
 -- book draw
 function Book:draw(mode, x, y, z, planeSize, nx, ny, nz, textScale, textAngle, ax, ay, az)
   lovr.graphics.plane(mode, x, y, z, planeSize, nx, ny, nz)
-  lovr.graphics.print(self.text, BX, BY, BZ, textScale, textAngle, ax, ay, az, 10, left, top)
+
+  -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
+  -- font:setPixelDensity(50)
+  -- lovr.graphics.setColor(0, 0, 0, 255)
+  lovr.graphics.print(self.text, x, y, z, textScale, textAngle, ax, ay, az, 10, left, top)
 end
 
 function Book:parseTxt(text)
@@ -105,3 +104,5 @@ function lovr.printText(fullText, start, numWords)
   return table.concat(words, " ", start, finish)
 
 end
+
+return Book

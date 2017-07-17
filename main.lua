@@ -3,8 +3,6 @@ function lovr.load()
   require('lib/book')
   require('lib/lua_lib')
 
-  -- width, height = lovr.graphics.getDimensions()
-
   -- load model
   environment =  lovr.graphics.newModel('assets/Room_block_small.obj', 'assets/texture.jpg')
 
@@ -17,7 +15,6 @@ function lovr.load()
   -- controller sphere (collider)
 
   -- load book/text (without book class)
-  READMODE = false
   START = 1
   NUMWORDS = 100
   displayText = lovr.filesystem.read('assets/room/part1.txt')
@@ -26,7 +23,8 @@ function lovr.load()
 
   -- load book w book class
   bookText = lovr.filesystem.read('assets/room/part1.txt')
-  book = Book.new("A Room of One's Own", "Virginia Woolf", bookText)
+  book = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
+
   BX, BY, BZ = 0, 1, 0
   BAX, BAY, BAZ = 0, 0, 0
   planeSize = 1
@@ -37,31 +35,30 @@ function lovr.load()
   textScale = 0.05
   angle = 0
 
-  -- load physics
-  -- world = lovr.physics.newWorld()
-  -- bookCollider = world:newBoxCollider(BX, BY, BZ, 1, 1, 0.5)
-
-  -- testCollider = world:newBoxCollider(BX, BY, BZ, 1, 1, 0.5)
 end
 
 function lovr.update()
-  -- test
-  -- START = START + NUMWORDS
-  -- print(START)
-  -- print(NUMWORDS)
-
-
   for i, controller in ipairs(controllers) do
     -- if trigger down and controller within book plane
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
-      -- print("in plane!", lovr.controllerPlaneCollide(controller))
       -- change book position
       BX, BY, BZ = controller:getPosition()
 
+      -- first implementation:
       -- translate rotation (keep forward vector of fixed toward headset)
-      angle, BAX, BAY, BAZ = controller:getOrientation()
+      -- angle, BAX, BAY, BAZ = controller:getOrientation()
       -- lovr.graphics.rotate(angle, BAX, BAY, BAZ)
-      transform = lovr.math.newTransform(BX, BY, BZ, 0, 0, 0, angle, BAX, BAY, BAZ)
+      -- transform = lovr.math.newTransform(BX, BY, BZ, 0, 0, 0, angle, BAX, BAY, BAZ)
+
+      -- second: artisanal hand-crafted rotation
+     lovr.graphics.push()
+     lovr.graphics.origin()
+     lovr.graphics.translate(controller:getOrientation()) -- the x, y, z of the plane, maybe controller:getPosition or something
+     lovr.graphics.rotate(controller:getOrientation()) -- rotate the coordinate system based on the controller
+     plane:draw('line', 0, 0, 0, 1, 0, 0, 1) -- whatever the drawing code is, maybe lovr.graphics.plane('fill', 0, 0, 0, scale, 0, 0, 1)
+     -- since the translation/rotation were taken care of with the functions above, you can just draw
+     -- the plane at 0,0,0 and with a base rotation and it'll show up in the right place!
+     lovr.graphics.pop() -- make sure every push has a pop, it just undoes the coordinate system stuff we changed
     end
   end
 
@@ -71,6 +68,7 @@ function lovr.draw()
   -- mac testing:
   -- lovr.graphics.plane('line', 0, 0, -1, 1, 0, 0, 1)
   -- lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), 0, 0, -1, 0.05, 0, 0, 0, 0, 15, left, top)
+  book:draw('line', 0, 0, -1, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
 
   -- origin
   -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
@@ -79,7 +77,7 @@ function lovr.draw()
   -- sound:play()
 
   -- render environment given user's position in space
-  environment:draw(0, 0, 0, .4)
+  -- environment:draw(0, 0, 0, .4)
 
   -- render UI
   for i, controller in ipairs(controllers) do
@@ -88,20 +86,8 @@ function lovr.draw()
    controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
   end
 
-  -- if read mode on, render page with in front of camera
-  if READMODE then
-    -- without book class
-    lovr.graphics.plane('line', BX, BY, BZ, 1, 0, 0, 1)
-
-    -- render text
-    -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
-    -- font:setPixelDensity(50)
-    -- lovr.graphics.setColor(0, 0, 0, 255)
-    lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), BX, BY, BZ, 0.05, 0, 0, 0, 0, 10, left, top)
-
-    -- with book class
-    -- book:draw('line', BX, BY, BZ, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
-  end
+  -- render book
+  book:draw('line', BX, BY, BZ, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
 
 end
 
@@ -113,20 +99,20 @@ function refreshControllers()
   for i, controller in ipairs(controllers) do
     controllerModels[i] = controller:newModel()
   end
+
 end
 
 function lovr.controlleradded()
   refreshControllers()
+
 end
 
 function lovr.controllerremoved()
   refreshControllers()
+
 end
 
 function lovr.controllerpressed(controller, button)
-  if button == 'menu' then
-    READMODE = not READMODE
-  end
 
   if button == 'touchpad' then
     if controller:getAxis('touchx') > 0 then
@@ -140,7 +126,6 @@ function lovr.controllerpressed(controller, button)
         START = 1
       end
     end
-
   end
 
 end
@@ -164,4 +149,5 @@ function lovr.controllerPlaneCollide(controller)
   else
     return false
   end
+
 end
