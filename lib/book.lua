@@ -5,15 +5,24 @@ function Book:new(title, author, text)
   -- self.__index = self
   -- self.title = title
   -- self.author = author
+  -- self.text = text
   -- self.text = parseTxt(text)
   -- return self
 end
 
 -- book load
+function Book:load()
+end
 
 -- book update
+function Book:update()
+end
 
 -- book draw
+function Book:draw(mode, x, y, z, planeSize, nx, ny, nz, textScale, textAngle, ax, ay, az)
+  lovr.graphics.plane(mode, x, y, z, planeSize, nx, ny, nz)
+  lovr.graphics.print(self.text, BX, BY, BZ, textScale, textAngle, ax, ay, az, 10, left, top)
+end
 
 function Book:parseTxt(text)
   -- first implementation: split text by word into table

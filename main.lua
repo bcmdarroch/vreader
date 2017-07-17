@@ -29,6 +29,13 @@ function lovr.load()
   book = Book.new("A Room of One's Own", "Virginia Woolf", bookText)
   BX, BY, BZ = 0, 1, 0
   BAX, BAY, BAZ = 0, 0, 0
+  planeSize = 1
+  NX = 0
+  NY = 0
+  NZ = 1
+  -- NZ = headset position
+  textScale = 0.05
+  angle = 0
 
   -- load physics
   -- world = lovr.physics.newWorld()
@@ -49,15 +56,13 @@ function lovr.update()
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
       -- print("in plane!", lovr.controllerPlaneCollide(controller))
       -- change book position
-      BX, BY, BZ = controller:getPosition()
+      BX, BY, BZ = controller:getPosition() -- + offset?
 
       -- translate rotation (keep forward vector of fixed toward headset)
-      BAX, BAY, BAZ = controller:getOrientation()
-      lovr.graphics.rotate(.5, BAX, BAY, BAZ)
+      angle, BAX, BAY, BAZ = controller:getOrientation()
+      lovr.graphics.rotate(angle, BAX, BAY, BAZ)
     end
   end
-     -- change plane/text origin to controller's origin + offset (translate position)
-      -- x, y, z = controller:get position + offset
 
 end
 
@@ -80,8 +85,6 @@ function lovr.draw()
    x, y, z = controller:getPosition()
    angle, ax, ay, az = controller:getOrientation()
    controllerModels[i]:draw(x, y, z, 1, angle, ax, ay, az)
-
-  --  cube = lovr.graphics.cube('line', x, y, z, 0.1, angle, ax, ay, az)
   end
 
   -- if read mode on, render page with in front of camera
@@ -96,7 +99,7 @@ function lovr.draw()
     lovr.graphics.print(lovr.printText(displayText, START, NUMWORDS), BX, BY, BZ, 0.05, 0, 0, 0, 0, 10, left, top)
 
     -- with book class
-    -- book:draw(BX, BY, BZ, size, angle, BAX, BAY, BAZ, WRAP, left, top)
+    -- book:draw('line', BX, BY, BZ, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
   end
 
 end
