@@ -56,7 +56,7 @@ function lovr.update()
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
       -- print("in plane!", lovr.controllerPlaneCollide(controller))
       -- change book position
-      BX, BY, BZ = controller:getPosition() -- + offset?
+      BX, BY, BZ = controller:getPosition()
 
       -- translate rotation (keep forward vector of fixed toward headset)
       angle, BAX, BAY, BAZ = controller:getOrientation()
