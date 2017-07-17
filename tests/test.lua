@@ -1,42 +1,80 @@
-function printText(fullText, start, numChars)
-  -- split by characters
-  local i = 0
-  for char in fullText:gmatch(".") do
-    i = i + 1
+function parseTxt(text)
+  textTable = {}
 
-    if i == numChars then
-      print("text", fullText)
-      print("last char", "'" .. char .. "'")
-      print("i", i)
-      local next = string.sub(fullText, i + 1, i + 1)
-      print("next", "'" .. next .. "'")
+  local i = 1
+  local j = 10
 
-      -- 1. end of word
-      -- 2. in btwn words
-      if char == " " or next == " " then
-        return string.sub(fullText, start, start + i - 1)
+  while j <= string.len(text) do
 
-      -- 3. inside word
-      elseif char ~= " " and next ~= " " then
-        print("inside word")
-        local prev = ""
-        repeat
-          i = i - 1
-          print("i", i)
-          prev = string.sub(fullText, i - 1, i - 1)
-          print("prev", prev)
-        until prev == " "
-        i = i - 1
+    local char = string.sub(text, j, j)
+    local next = string.sub(text, j + 1, j + 1)
 
-        return string.sub(fullText, start, start + i)
-      end
+    -- 1. end of word
+    -- 2. in btwn words
+    if char == " " or next == " " then
+      -- add string.sub(text, i, j) to text table
+
+    -- 3. inside word
+    elseif char ~= " " and next ~= " " then
+      local prev = ""
+      repeat
+        j = j - 1
+        prev = string.sub(text, j - 1, j - 1)
+      until prev == " "
+      -- add string.sub(text, i, i) to text table
     end
+
+    -- i = j
+    -- j = i + 50
   end
+
+  return textTable
+
 end
 
 text = [[me creating new accounts to get one month free trials
 
 Hairy frogfish have excellent camouflage.]]
+
+-- function printText(fullText, start, numChars)
+--   -- split by characters
+--   local i = 0
+--   for char in fullText:gmatch(".") do
+--     i = i + 1
+--
+--     if i == numChars then
+--       print("text", fullText)
+--       print("last char", "'" .. char .. "'")
+--       print("i", i)
+--       local next = string.sub(fullText, i + 1, i + 1)
+--       print("next", "'" .. next .. "'")
+--
+--       -- 1. end of word
+--       -- 2. in btwn words
+--       if char == " " or next == " " then
+--         return string.sub(fullText, start, start + i - 1)
+--
+--       -- 3. inside word
+--       elseif char ~= " " and next ~= " " then
+--         print("inside word")
+--         local prev = ""
+--         repeat
+--           i = i - 1
+--           print("i", i)
+--           prev = string.sub(fullText, i - 1, i - 1)
+--           print("prev", prev)
+--         until prev == " "
+--         i = i - 1
+--
+--         return string.sub(fullText, start, start + i)
+--       end
+--     end
+--   end
+-- end
+
+-- text = [[me creating new accounts to get one month free trials
+--
+-- Hairy frogfish have excellent camouflage.]]
 
 -- end of word
 -- print('Test 1', "'" .. printText(text, 1, 11) .. "'") -- [[me creating]]
