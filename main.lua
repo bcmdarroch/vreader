@@ -53,20 +53,6 @@ function lovr.draw()
 
   -- render book
   book:draw()
-  -- inverse: line vs fill
-
-  -- second: artisanal hand-crafted rotation
-  -- if rotateMode then
-  --   for i, controller in ipairs(controllers) do
-  --     lovr.graphics.push()
-  --     lovr.graphics.origin()
-  --     lovr.graphics.translate(controller:getOrientation()) -- the x, y, z of the plane, maybe controller:getPosition or something
-  --     lovr.graphics.rotate(controller:getOrientation())
-  --     book:draw(PAGE, 'line', 0, 0, 0, planeSize, NX, NY, NZ, textScale, angle, 0, 0, 0)
-  --     lovr.graphics.pop()
-  --     rotateMode = false
-  --   end
-  -- end
 
 end
 

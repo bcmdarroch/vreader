@@ -112,7 +112,7 @@ end
 -- 3. controller functions
 function Book:move()
   for i, controller in ipairs(controllers) do
-    if trigger down and controller within book plane
+    -- if trigger down and controller within book plane
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
       -- change book position
       self.x, self.y, self.z = controller:getPosition()
@@ -127,7 +127,14 @@ function Book:move()
     --   self.angle = lovr.headset.getOrientation()
     --   _, self.ax, self.ay, self.az = lovr.headset.getOrientation()
     -- end
-  end
+
+    -- hand-crafted rotation
+      --  lovr.graphics.push()
+      --  lovr.graphics.origin()
+      --  lovr.graphics.translate(controller:getPosition())
+      --  lovr.graphics.rotate(controller:getOrientation())
+      --  book:draw()
+      --  lovr.graphics.pop()
 
 end
 
