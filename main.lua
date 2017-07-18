@@ -30,11 +30,6 @@ function lovr.load()
 
 end
 
-function lovr.update()
-  book:update()
-
-end
-
 function lovr.draw()
   -- mac testing:
   -- book:draw(PAGE, 'fill', 0, 0, -1, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
@@ -100,7 +95,6 @@ end
 function lovr.controllerPlaneCollide(controller)
   -- get controller position
   conX, conY, conZ = controller:getPosition()
-    -- print("controller points", conX, conY, conZ, conAngle, conAX, conAY, conAZ)
 
   -- get distance btwn plane and controller origins (position - position)
   deltaX = book.x - conX
