@@ -22,10 +22,7 @@ function lovr.load()
   BX, BY, BZ = 0, 1, 0
   BAX, BAY, BAZ = 0, 0, 0
   planeSize = 1
-  NX = 0
-  NY = 0
-  NZ = 1
-  -- NZ = headset position
+
   textScale = 0.05
   angle = 0
   rotateMode = false
@@ -39,7 +36,7 @@ end
 
 function lovr.draw()
   -- mac testing:
-  book:draw(PAGE, 'line', 0, 0, -1, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
+  -- book:draw(PAGE, 'fill', 0, 0, -1, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
 
   -- origin
   -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
@@ -48,27 +45,27 @@ function lovr.draw()
   -- sound:play()
 
   -- render environment given user's position in space
-  -- environment:draw(0, 0, 0, .4)
+  environment:draw(0, 0, 0, .4)
 
   -- render UI
   renderControllers()
 
   -- render book
-  book:draw(PAGE, 'line', BX, BY, BZ, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
+  book:draw(PAGE, 'fill', BX, BY, BZ, planeSize, textScale, angle, BAX, BAY, BAZ)
   -- inverse: line vs fill
 
   -- second: artisanal hand-crafted rotation
-  if rotateMode then
-    for i, controller in ipairs(controllers) do
-      lovr.graphics.push()
-      lovr.graphics.origin()
-      lovr.graphics.translate(controller:getOrientation()) -- the x, y, z of the plane, maybe controller:getPosition or something
-      lovr.graphics.rotate(controller:getOrientation())
-      book:draw(PAGE, 'line', 0, 0, 0, planeSize, NX, NY, NZ, textScale, angle, 0, 0, 0)
-      lovr.graphics.pop()
-      rotateMode = false
-    end
-  end
+  -- if rotateMode then
+  --   for i, controller in ipairs(controllers) do
+  --     lovr.graphics.push()
+  --     lovr.graphics.origin()
+  --     lovr.graphics.translate(controller:getOrientation()) -- the x, y, z of the plane, maybe controller:getPosition or something
+  --     lovr.graphics.rotate(controller:getOrientation())
+  --     book:draw(PAGE, 'line', 0, 0, 0, planeSize, NX, NY, NZ, textScale, angle, 0, 0, 0)
+  --     lovr.graphics.pop()
+  --     rotateMode = false
+  --   end
+  -- end
 
 end
 
