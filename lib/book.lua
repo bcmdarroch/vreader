@@ -35,17 +35,29 @@ end
 function Book:draw(p, mode, x, y, z, planeSize, nx, ny, nz, textScale, textAngle, ax, ay, az)
   -- render plane
   -- if self.inverse then
-    lovr.graphics.setColor(0, 0, 0)
+  -- lovr.graphics.setColor(0, 0, 0)
   -- end
   lovr.graphics.plane(mode, x, y, z, planeSize, nx, ny, nz)
 
   -- render text
+  -- combining lines (unpack wont work)
+  -- local displayText = ""
+
+  -- for index = p, line in pairs(self.text ) do
+  --   displayText = displayText .. line
+  --   if index > p + 10 then
+  --     return displayText
+  --   end
+  -- end
+
   -- if self.inverse then
-    lovr.graphics.setColor(255, 255, 255)
+    -- lovr.graphics.setColor(255, 255, 255)
   -- end
   -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
   -- font:setPixelDensity(50)
-  lovr.graphics.print(self.text[p], x, y - 0.02, z, textScale, textAngle, ax, ay, az, 12, left, top)
+
+  -- displayText is self.text[p]
+  lovr.graphics.print(displayText, x, y - 0.02, z, textScale, textAngle, ax, ay, az, 12, left, top)
   lovr.graphics.print(p, x + 0.45, y - 0.45, z, textScale - 0.02, textAngle, ax, ay, az, 10, left, top)
   lovr.graphics.print(self.title, x, y + 0.45, z, textScale - 0.02, textAngle, ax, ay, az, 10, left, top)
 
@@ -53,9 +65,12 @@ end
 
 function Book:parseTxt(text)
   textTable = {}
-
+  -- by page
   local i = 1
-  local j = 500
+  -- local j = 500
+
+  -- by line
+  local j = 50
 
   while j <= string.len(text) do
 
@@ -78,7 +93,8 @@ function Book:parseTxt(text)
     end
 
     i = j
-    j = i + 500
+    -- j = i + 500
+    j = i + 50
   end
   return textTable
 

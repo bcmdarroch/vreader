@@ -39,7 +39,7 @@ end
 
 function lovr.draw()
   -- mac testing:
-  book:draw(PAGE, 'fill', 0, 0, -1, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
+  book:draw(PAGE, 'line', 0, 0, -1, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
 
   -- origin
   -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
@@ -54,7 +54,8 @@ function lovr.draw()
   renderControllers()
 
   -- render book
-  book:draw(PAGE, 'fill', BX, BY, BZ, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
+  book:draw(PAGE, 'line', BX, BY, BZ, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
+  -- inverse: line vs fill
 
   -- second: artisanal hand-crafted rotation
   if rotateMode then
