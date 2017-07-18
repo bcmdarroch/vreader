@@ -112,16 +112,23 @@ end
 -- 3. controller functions
 function Book:move()
   for i, controller in ipairs(controllers) do
-    -- if trigger down and controller within book plane
+    if trigger down and controller within book plane
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
       -- change book position
       self.x, self.y, self.z = controller:getPosition()
-
-      -- first implementation:
-      -- translate rotation (keep forward vector of fixed toward headset)
       self.angle, self.ax, self.ay, self.az = controller:getOrientation()
     end
+
+    -- tracked to headset
+    -- if controller:getAxis('trigger') == 1 then
+    --   self.x, self.y, self.z = lovr.headset.getPosition()
+    --   self.y = self.y + 0.5
+    --   self.z = self.z + 1
+    --   self.angle = lovr.headset.getOrientation()
+    --   _, self.ax, self.ay, self.az = lovr.headset.getOrientation()
+    -- end
   end
+
 end
 
 function Book:turnPage(controller)
