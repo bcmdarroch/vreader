@@ -23,6 +23,7 @@ function Book:draw(p, mode, x, y, z, planeSize, nx, ny, nz, textScale, textAngle
   -- font:setPixelDensity(50)
   -- lovr.graphics.setColor(0, 0, 0, 255)
   lovr.graphics.print(self.text[p], x, y, z, textScale, textAngle, ax, ay, az, 10, left, top)
+  lovr.graphics.print(p, x + 0.45, y - 0.45, z, textScale - 0.02, textAngle, ax, ay, az, 10, left, top)
 
 end
 

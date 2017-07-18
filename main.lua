@@ -12,7 +12,6 @@ function lovr.load()
 
   -- load controllers
   refreshControllers()
-  -- controller sphere (collider)
 
   -- load book/text (without book class)
   START = 1
@@ -26,7 +25,7 @@ function lovr.load()
   book = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
 
   PAGE = 1
-  BX, BY, BZ = 1, 1, 0
+  BX, BY, BZ = 0, 1, 0
   BAX, BAY, BAZ = 0, 0, 0
   planeSize = 1
   NX = 0
@@ -35,6 +34,7 @@ function lovr.load()
   -- NZ = headset position
   textScale = 0.05
   angle = 0
+  rotateMode = false
 
 end
 
@@ -51,15 +51,8 @@ function lovr.update()
       -- lovr.graphics.rotate(angle, BAX, BAY, BAZ)
       -- transform = lovr.math.newTransform(BX, BY, BZ, 0, 0, 0, angle, BAX, BAY, BAZ)
 
-      -- second: artisanal hand-crafted rotation
-     lovr.graphics.push()
-     lovr.graphics.origin()
-     lovr.graphics.translate(controller:getOrientation()) -- the x, y, z of the plane, maybe controller:getPosition or something
-     lovr.graphics.rotate(controller:getOrientation()) -- rotate the coordinate system based on the controller
-     lovr.graphics.plane('line', 0, 0, 0, 1, 0, 0, 1) -- whatever the drawing code is, maybe lovr.graphics.plane('fill', 0, 0, 0, scale, 0, 0, 1)
-     -- since the translation/rotation were taken care of with the functions above, you can just draw
-     -- the plane at 0,0,0 and with a base rotation and it'll show up in the right place!
-     lovr.graphics.pop() -- make sure every push has a pop, it just undoes the coordinate system stuff we changed
+      -- second implementation (to draw): 
+       rotateMode = true
     end
   end
 
@@ -89,6 +82,19 @@ function lovr.draw()
 
   -- render book
   book:draw(PAGE, 'line', BX, BY, BZ, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
+
+  -- second: artisanal hand-crafted rotation
+  if rotateMode then
+    for i, controller in ipairs(controllers) do
+      lovr.graphics.push()
+      lovr.graphics.origin()
+      lovr.graphics.translate(controller:getOrientation()) -- the x, y, z of the plane, maybe controller:getPosition or something
+      lovr.graphics.rotate(controller:getOrientation())
+      book:draw(PAGE, 'line', 0, 0, 0, planeSize, NX, NY, NZ, textScale, angle, 0, 0, 0)
+      lovr.graphics.pop()
+      rotateMode = false
+    end
+  end
 
 end
 
