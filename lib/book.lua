@@ -1,44 +1,53 @@
--- create book class
+-- 1. create book class
 Book = {}
 
 function Book:init(title, author, text)
   self.title = title
   self.author = author
   self.text = Book:parseTxt(text)
+
+  self.x = 0
+  self.y = 1
+  self.z = 0
+  self.page = 1
+  self.angle = 0
+  self.bax = 0
+  self.bay = 0
+  self.baz = 0
+  self.planeSize = 1
+  self.textScale = 0.05
   self.inverse = false
+
   return self
 
 end
 
--- book update
+-- 2. main LOVR callbacks
 function Book:update()
-  for i, controller in ipairs(controllers) do
-    -- if trigger down and controller within book plane
-    if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
-      -- change book position
-      BX, BY, BZ = controller:getPosition()
 
-      -- first implementation:
-      -- translate rotation (keep forward vector of fixed toward headset)
-      angle, BAX, BAY, BAZ = controller:getOrientation()
-
-
-      -- second implementation (to draw):
-      --  rotateMode = true
-    end
-  end
 
 end
 
 -- book draw
-function Book:draw(p, mode, x, y, z, planeSize, textScale, angle, ax, ay, az)
+function Book:draw()
+  local x = self.x
+  local y = self.y
+  local z = self.z
+  local angle = self.angle
+  local ax = self.ax
+  local ay = self.ay
+  local az = self.az
+
+  -- call move function
+  Book:move()
+
   -- render plane
   if self.inverse then
     lovr.graphics.setColor(255, 255, 255)
   else
     lovr.graphics.setColor(0, 0, 0)
   end
-  lovr.graphics.plane(mode, x, y, z, planeSize, angle, ax, ay, az)
+  lovr.graphics.plane('fill', x, y, z, self.planeSize, angle, ax, ay, az)
 
   -- render text
   if self.inverse then
@@ -55,9 +64,9 @@ function Book:draw(p, mode, x, y, z, planeSize, textScale, angle, ax, ay, az)
   --   displayText = displayText .. self.text[i]
   -- end
   -- displayText is self.text[p]
-  lovr.graphics.print(self.text[p], x, y - 0.02, z + 0.001, textScale, angle, ax, ay, az, 12, left, top)
-  lovr.graphics.print(p, x + 0.45, y - 0.45, z + 0.001, textScale - 0.02, angle, ax, ay, az, 10, left, top)
-  lovr.graphics.print(self.title, x, y + 0.45, z + 0.001, textScale - 0.02, angle, ax, ay, az, 10, left, top)
+  lovr.graphics.print(self.text[self.page], x, y - 0.02, z + 0.001, self.textScale, angle, ax, ay, az, 12, left, top)
+  lovr.graphics.print(self.page, x + 0.45, y - 0.45, z + 0.001, self.textScale - 0.02, angle, ax, ay, az, 10, left, top)
+  lovr.graphics.print(self.title, x, y + 0.45, z + 0.001, self.textScale - 0.02, angle, ax, ay, az, 10, left, top)
 
   -- undo global color change
   lovr.graphics.setColor(255, 255, 255)
@@ -100,16 +109,31 @@ function Book:parseTxt(text)
 
 end
 
+-- 3. controller functions
+function Book:move()
+  for i, controller in ipairs(controllers) do
+    -- if trigger down and controller within book plane
+    if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
+      -- change book position
+      self.x, self.y, self.z = controller:getPosition()
+
+      -- first implementation:
+      -- translate rotation (keep forward vector of fixed toward headset)
+      self.angle, self.ax, self.ay, self.az = controller:getOrientation()
+    end
+  end
+end
+
 function Book:turnPage(controller)
   if controller:getAxis('touchx') > 0 or controller:getAxis('touchy') < 0 then
-      PAGE = PAGE + 1
-      if PAGE > #book.text then
-        PAGE = #book.text
+      self.page = self.page + 1
+      if self.page > #book.text then
+        self.page = #book.text
       end
   elseif controller:getAxis('touchx') < 0 and controller:getAxis('touchy') > 0 then
-    PAGE = PAGE - 1
-    if PAGE < 1 then
-      PAGE = 1
+    self.page = self.page - 1
+    if self.page < 1 then
+      self.page = 1
     end
   end
 

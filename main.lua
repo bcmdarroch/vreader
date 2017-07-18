@@ -16,16 +16,17 @@ function lovr.load()
   -- load book
   bookText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   book = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
-  -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
+  font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
+  -- lovr.graphics.setFont(font)
 
-  PAGE = 1
-  BX, BY, BZ = 0, 1, 0
-  BAX, BAY, BAZ = 0, 0, 0
-  planeSize = 1
-
-  textScale = 0.05
-  angle = 0
-  rotateMode = false
+  -- PAGE = 1
+  -- BX, BY, BZ = 0, 1, 0
+  -- BAX, BAY, BAZ = 0, 0, 0
+  -- planeSize = 1
+  --
+  -- textScale = 0.05
+  -- angle = 0
+  -- rotateMode = false
 
 end
 
@@ -51,7 +52,7 @@ function lovr.draw()
   renderControllers()
 
   -- render book
-  book:draw(PAGE, 'fill', BX, BY, BZ, planeSize, textScale, angle, BAX, BAY, BAZ)
+  book:draw()
   -- inverse: line vs fill
 
   -- second: artisanal hand-crafted rotation
@@ -116,9 +117,9 @@ function lovr.controllerPlaneCollide(controller)
     -- print("controller points", conX, conY, conZ, conAngle, conAX, conAY, conAZ)
 
   -- get distance btwn plane and controller origins (position - position)
-  deltaX = BX - conX
-  deltaY = BY - conY
-  deltaZ = BZ - conZ
+  deltaX = book.x - conX
+  deltaY = book.y - conY
+  deltaZ = book.z - conZ
   d = deltaX^2 + deltaY^2 + deltaZ^2
   distance = math.sqrt(d)
 
