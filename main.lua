@@ -1,10 +1,9 @@
 -- 1. main LOVR callbacks
 function lovr.load()
   require('lib/book')
-  require('lib/lua_lib')
 
   -- load environment
-  -- environment =  lovr.graphics.newModel('assets/Room_block_small.obj', 'assets/texture.jpg')
+  environment =  lovr.graphics.newModel('assets/Room_block_small.obj', 'assets/texture.jpg')
 
   -- load audio
   sound = lovr.audio.newSource('assets/background.ogg')
@@ -16,8 +15,7 @@ function lovr.load()
   -- load book
   bookText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   book = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
-  -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
-  font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
+  font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
   lovr.graphics.setFont(font)
 
 end
@@ -32,7 +30,7 @@ function lovr.draw()
   -- sound:play()
 
   -- render environment given user's position in space
-  -- environment:draw(0, 0, 0, .4)
+  environment:draw(0, 0, 0, .4)
 
   -- render UI
   renderControllers()

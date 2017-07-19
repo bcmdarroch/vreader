@@ -63,7 +63,7 @@ function Book:draw()
   -- displayText is self.text[self.page]
 
   -- by page:
-  lovr.graphics.print(self.text[self.page], 0, - 0.02, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
+  lovr.graphics.print(self.text[self.page], 0, -0.02, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
   lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
   lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
 
