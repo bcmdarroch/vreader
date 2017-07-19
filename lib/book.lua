@@ -66,7 +66,7 @@ function Book:draw()
   -- displayText is self.text[p]
   lovr.graphics.print(self.text[self.page], 0, - 0.02, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
   lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
-  lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
 
   -- undo global color/origin changes
   lovr.graphics.setColor(255, 255, 255)
@@ -117,7 +117,7 @@ function Book:turnPage(controller)
       if self.page > #book.text then
         self.page = #book.text
       end
-  elseif controller:getAxis('touchx') < 0 and controller:getAxis('touchy') > 0 then
+  elseif controller:getAxis('touchx') < 0 or controller:getAxis('touchy') > 0 then
     self.page = self.page - 1
     if self.page < 1 then
       self.page = 1
