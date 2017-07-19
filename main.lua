@@ -2,8 +2,9 @@
 function lovr.load()
   require('lib/book')
 
-  -- load environment
+  -- load environment & skybox
   environment =  lovr.graphics.newModel('assets/Room_block_small.obj', 'assets/texture.jpg')
+  skybox = lovr.graphics.newSkybox('assets/water.jpg')
 
   -- load audio
   sound = lovr.audio.newSource('assets/background.ogg')
@@ -16,7 +17,7 @@ function lovr.load()
   bookText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   book = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
   font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
-  lovr.graphics.setFont(font)
+  -- lovr.graphics.setFont(font)
 
 end
 
@@ -28,6 +29,10 @@ function lovr.draw()
 
   -- play background sound
   -- sound:play()
+
+  -- render skybox
+  local angle, x, y, z = lovr.headset.getOrientation()
+  skybox:draw(-angle, x, y, z)
 
   -- render environment given user's position in space
   environment:draw(0, 0, 0, .4)
