@@ -22,8 +22,6 @@ function lovr.load()
 end
 
 function lovr.draw()
-  -- mac testing:
-  -- book:draw(PAGE, 'fill', 0, 0, -1, planeSize, NX, NY, NZ, textScale, angle, BAX, BAY, BAZ)
   -- origin:
   -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
 
@@ -35,7 +33,7 @@ function lovr.draw()
   skybox:draw(-angle, x, y, z)
 
   -- render environment given user's position in space
-  environment:draw(0, 0, 0, .4)
+  -- environment:draw(0, 0, 0, .4)
 
   -- render UI
   renderControllers()

@@ -42,17 +42,17 @@ function Book:draw()
 
   -- render plane
   if self.inverse then
-    lovr.graphics.setColor(255, 255, 255)
+    lovr.graphics.setColor(224, 219, 241)
   else
-    lovr.graphics.setColor(0, 0, 0)
+    lovr.graphics.setColor(65, 57, 57)
   end
   lovr.graphics.plane('fill', 0, 0, 0, self.planeSize)
 
   -- render text
   if self.inverse then
-    lovr.graphics.setColor(0, 0, 0)
+    lovr.graphics.setColor(65, 57, 57)
   else
-    lovr.graphics.setColor(255, 255, 255)
+    lovr.graphics.setColor(224, 219, 241)
   end
 
   -- line by line:
@@ -66,6 +66,9 @@ function Book:draw()
   lovr.graphics.print(self.text[self.page], 0, -0.02, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
   lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
   lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+
+  -- mac testing:
+  lovr.graphics.print(self.text[self.page], 0, 0, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
 
   -- undo global color/origin changes
   lovr.graphics.setColor(255, 255, 255)
