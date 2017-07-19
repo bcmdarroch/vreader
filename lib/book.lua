@@ -23,11 +23,6 @@ function Book:init(title, author, text)
 end
 
 -- 2. main LOVR callbacks
-function Book:update()
-
-
-end
-
 -- book draw
 function Book:draw()
   local x = self.x
@@ -55,15 +50,15 @@ function Book:draw()
   else
     lovr.graphics.setColor(255, 255, 255)
   end
-  -- lovr.graphics.setShader(font) -- setShader/setFont doesn't work
-  -- font:setPixelDensity(50)
 
   -- line by line:
   -- local displayText = ""
   -- for i = p, p + 9 do
   --   displayText = displayText .. self.text[i]
   -- end
-  -- displayText is self.text[p]
+  -- displayText is self.text[self.page]
+
+  -- by page:
   lovr.graphics.print(self.text[self.page], x, y - 0.02, z + 0.001, self.textScale, angle, ax, ay, az, 12, left, top)
   lovr.graphics.print(self.page, x + 0.45, y - 0.45, z + 0.001, self.textScale - 0.02, angle, ax, ay, az, 10, left, top)
   lovr.graphics.print(self.title, x, y + 0.45, z + 0.001, self.textScale - 0.02, angle, ax, ay, az, 10, left, top)
