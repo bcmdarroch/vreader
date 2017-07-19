@@ -5,18 +5,18 @@ function Book:init(title, author, text)
   self.title = title
   self.author = author
   self.text = Book:parseTxt(text)
+  self.page = 1
+  self.planeSize = 1
+  self.textScale = 0.05
+  self.inverse = false
 
   self.x = 0
   self.y = 1
   self.z = 0
-  self.page = 1
   self.angle = 0
-  self.bax = 0
-  self.bay = 0
-  self.baz = 0
-  self.planeSize = 1
-  self.textScale = 0.05
-  self.inverse = false
+  self.ax = 0
+  self.ay = 0
+  self.az = 0
 
   return self
 
@@ -25,16 +25,20 @@ end
 -- 2. main LOVR callbacks
 -- book draw
 function Book:draw()
-  local x = self.x
-  local y = self.y
-  local z = self.z
-  local angle = self.angle
-  local ax = self.ax
-  local ay = self.ay
-  local az = self.az
+  lovr.graphics.push()
 
-  -- call move function
-  Book:move()
+  for i, controller in ipairs(controllers) do
+    if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
+    -- if controller:getAxis('trigger') == 1 then
+       lovr.graphics.translate(controller:getPosition())
+       self.x, self.y, self.z = controller:getPosition()
+       lovr.graphics.rotate(controller:getOrientation())
+       self.angle, self.ax, self.ay, self.az = controller:getOrientation()
+    else
+      lovr.graphics.translate(self.x, self.y, self.z)
+      lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
+    end
+  end
 
   -- render plane
   if self.inverse then
@@ -42,7 +46,7 @@ function Book:draw()
   else
     lovr.graphics.setColor(0, 0, 0)
   end
-  lovr.graphics.plane('fill', x, y, z, self.planeSize, angle, ax, ay, az)
+  lovr.graphics.plane('fill', 0, 0, 0, self.planeSize)
 
   -- render text
   if self.inverse then
@@ -59,12 +63,14 @@ function Book:draw()
   -- displayText is self.text[self.page]
 
   -- by page:
-  lovr.graphics.print(self.text[self.page], x, y - 0.02, z + 0.001, self.textScale, angle, ax, ay, az, 12, left, top)
-  lovr.graphics.print(self.page, x + 0.45, y - 0.45, z + 0.001, self.textScale - 0.02, angle, ax, ay, az, 10, left, top)
-  lovr.graphics.print(self.title, x, y + 0.45, z + 0.001, self.textScale - 0.02, angle, ax, ay, az, 10, left, top)
+  lovr.graphics.print(self.text[self.page], 0, - 0.02, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
+  lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
 
-  -- undo global color change
+  -- undo global color/origin changes
   lovr.graphics.setColor(255, 255, 255)
+   lovr.graphics.pop()
+
 end
 
 function Book:parseTxt(text)
@@ -104,42 +110,13 @@ function Book:parseTxt(text)
 
 end
 
--- 3. controller functions
-function Book:move()
-  for i, controller in ipairs(controllers) do
-    -- if trigger down and controller within book plane
-    if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
-      -- change book position
-      self.x, self.y, self.z = controller:getPosition()
-      self.angle, self.ax, self.ay, self.az = controller:getOrientation()
-    end
-
-    -- tracked to headset
-    -- if controller:getAxis('trigger') == 1 then
-    --   self.x, self.y, self.z = lovr.headset.getPosition()
-    --   self.y = self.y + 0.5
-    --   self.z = self.z + 1
-    --   self.angle = lovr.headset.getOrientation()
-    --   _, self.ax, self.ay, self.az = lovr.headset.getOrientation()
-    -- end
-
-    -- hand-crafted rotation
-      --  lovr.graphics.push()
-      --  lovr.graphics.origin()
-      --  lovr.graphics.translate(controller:getPosition())
-      --  lovr.graphics.rotate(controller:getOrientation())
-      --  book:draw()
-      --  lovr.graphics.pop()
-
-end
-
 function Book:turnPage(controller)
   if controller:getAxis('touchx') > 0 or controller:getAxis('touchy') < 0 then
       self.page = self.page + 1
       if self.page > #book.text then
         self.page = #book.text
       end
-  elseif controller:getAxis('touchx') < 0 and controller:getAxis('touchy') > 0 then
+  elseif controller:getAxis('touchx') < 0 or controller:getAxis('touchy') > 0 then
     self.page = self.page - 1
     if self.page < 1 then
       self.page = 1
