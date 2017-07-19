@@ -16,10 +16,9 @@ function lovr.load()
   -- load book
   bookText = lovr.filesystem.read('assets/room/part1.txt') .. lovr.filesystem.read('assets/room/part2.txt') .. lovr.filesystem.read('assets/room/part3.txt') .. lovr.filesystem.read('assets/room/part4.txt') .. lovr.filesystem.read('assets/room/part5.txt') .. lovr.filesystem.read('assets/room/part6.txt')
   book = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
-  font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
+  -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
+  font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
   lovr.graphics.setFont(font)
-
-  -- font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', '20')
 
 end
 
