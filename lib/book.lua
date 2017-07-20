@@ -6,7 +6,7 @@ function Book:init(title, author, text)
   self.author = author
   self.text = Book:parseTxt(text)
   self.page = 1
-  self.planeSize = 1.2
+  self.planeSize = 1.1
   self.textScale = 0.05
   self.inverse = false
 
@@ -77,7 +77,7 @@ function Book:draw()
   -- by page:
   lovr.graphics.print(self.text[self.page], 0, -0.02, 0.001, self.textScale, 0, 0, 0, 0, 15, left, top)
   lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
-  lovr.graphics.print(self.title, 0, 0.7, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.title, 0, 0.5, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
 
   -- mac testing:
   -- lovr.graphics.print(self.text[self.page], 0, 0, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
