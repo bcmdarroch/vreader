@@ -33,7 +33,7 @@ function lovr.draw()
   skybox:draw(-angle, x, y, z)
 
   -- render environment given user's position in space
-  -- environment:draw(0, 0, 0, .4)
+  environment:draw(0, 0, 0, .4)
 
   -- render UI
   renderControllers()

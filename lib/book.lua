@@ -6,7 +6,7 @@ function Book:init(title, author, text)
   self.author = author
   self.text = Book:parseTxt(text)
   self.page = 1
-  self.planeSize = 1
+  self.planeSize = 1.2
   self.textScale = 0.05
   self.inverse = false
 
@@ -17,6 +17,9 @@ function Book:init(title, author, text)
   self.ax = 0
   self.ay = 0
   self.az = 0
+  self.scalex = 1
+  self.scaley = 1
+  self.scalez = 1
 
   return self
 
@@ -29,30 +32,39 @@ function Book:draw()
 
   for i, controller in ipairs(controllers) do
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
-    -- if controller:getAxis('trigger') == 1 then
-       lovr.graphics.translate(controller:getPosition())
        self.x, self.y, self.z = controller:getPosition()
-       lovr.graphics.rotate(controller:getOrientation())
        self.angle, self.ax, self.ay, self.az = controller:getOrientation()
-    else
-      lovr.graphics.translate(self.x, self.y, self.z)
-      lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
+
+       if controller:getAxis('touchy') > 0 then
+         self.scalex = 1 + controller:getAxis('touchy')
+         self.scaley = 1 + controller:getAxis('touchy')
+         self.scalez = 1 + controller:getAxis('touchy')
+       else
+         self.scalex = 1 + controller:getAxis('touchy')
+         self.scaley = 1 + controller:getAxis('touchy')
+         self.scalez = 1 + controller:getAxis('touchy')
+       end
     end
   end
 
+  -- set origin
+  lovr.graphics.translate(self.x, self.y, self.z)
+  lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
+  lovr.graphics.scale(self.scalex, self.scaley, self.scalez)
+
   -- render plane
   if self.inverse then
-    lovr.graphics.setColor(224, 219, 241)
+    lovr.graphics.setColor(223, 217, 228)
   else
-    lovr.graphics.setColor(65, 57, 57)
+    lovr.graphics.setColor(38, 38, 38)
   end
   lovr.graphics.plane('fill', 0, 0, 0, self.planeSize)
 
   -- render text
   if self.inverse then
-    lovr.graphics.setColor(65, 57, 57)
+    lovr.graphics.setColor(38, 38, 38)
   else
-    lovr.graphics.setColor(224, 219, 241)
+    lovr.graphics.setColor(223, 217, 228)
   end
 
   -- line by line:
@@ -63,16 +75,16 @@ function Book:draw()
   -- displayText is self.text[self.page]
 
   -- by page:
-  lovr.graphics.print(self.text[self.page], 0, -0.02, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
+  lovr.graphics.print(self.text[self.page], 0, -0.02, 0.001, self.textScale, 0, 0, 0, 0, 15, left, top)
   lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
-  lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.title, 0, 0.7, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
 
   -- mac testing:
-  lovr.graphics.print(self.text[self.page], 0, 0, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
+  -- lovr.graphics.print(self.text[self.page], 0, 0, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
 
   -- undo global color/origin changes
   lovr.graphics.setColor(255, 255, 255)
-   lovr.graphics.pop()
+  lovr.graphics.pop()
 
 end
 
@@ -114,12 +126,12 @@ function Book:parseTxt(text)
 end
 
 function Book:turnPage(controller)
-  if controller:getAxis('touchx') > 0 or controller:getAxis('touchy') < 0 then
+  if controller:getAxis('touchx') > 0 and controller:getAxis('trigger') < 1 then
       self.page = self.page + 1
       if self.page > #book.text then
         self.page = #book.text
       end
-  elseif controller:getAxis('touchx') < 0 or controller:getAxis('touchy') > 0 then
+  elseif controller:getAxis('touchx') < 0 and controller:getAxis('trigger') < 1 then
     self.page = self.page - 1
     if self.page < 1 then
       self.page = 1
