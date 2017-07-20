@@ -67,16 +67,9 @@ function Book:draw()
     lovr.graphics.setColor(223, 217, 228)
   end
 
-  -- line by line:
-  -- local displayText = ""
-  -- for i = p, p + 9 do
-  --   displayText = displayText .. self.text[i]
-  -- end
-  -- displayText is self.text[self.page]
-
   -- by page:
   lovr.graphics.print(self.text[self.page], 0, -0.02, 0.001, self.textScale, 0, 0, 0, 0, 15, left, top)
-  lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.page, 0.5, -0.5, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
   lovr.graphics.print(self.title, 0, 0.5, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
 
   -- mac testing:
@@ -93,9 +86,6 @@ function Book:parseTxt(text)
   -- by page
   local i = 1
   local j = 500
-
-  -- by line
-  -- local j = 50
 
   while j <= string.len(text) do
 
@@ -119,7 +109,6 @@ function Book:parseTxt(text)
 
     i = j
     j = i + 500
-    -- j = i + 50
   end
   return textTable
 
