@@ -1,23 +1,36 @@
 local htmlparser = require('lib/htmlparser/init')
--- local snappy = require('../lib/lua-csnappy')
 
--- open epub?
-local book = io.open("assets/Emma.epub", "r")
-print(book)
+-- retrieve most recently modified epub in assets/books and save filename to variable
+os.execute([[ls -t assets/books | grep '.epub' > tests/outfile.txt]])
+file = io.input("tests/outfile.txt")
+fileName = io.read()
+
+-- save filename without extension
+dirName = string.match(fileName, '(.+)%p')
+
+print("file", fileName)
+print("dir", dirName)
 
 -- unzip epub
--- local epub = snappy.decompress("assets/Emma.epub")
--- print(epub)
+-- hardcoded:
+-- os.execute("7z e assets/books/Emma.epub -oassets/books/unzipped/Emma *.html -r")
+os.execute("7z e assets/books/" .. fileName .. " -oassets/books/unzipped/" .. dirName .. " *.html -r")
+-- os.execute("unzip assets/books/" .. fileName .. " -oassets/books/unzipped/" .. dirName .. " *.html -r")
 
--- open OEBPS folder
+-- iterate over files in filename
+-- local rawText = htmlparser.parse(book)
+-- for i, text in ipairs(rawText) do
+--   print(i .. text)
+-- end
 
--- iterate over files in OEBPS
-local rawText = htmlparser.parse(book)
   -- parse first h1 for title
 
   -- parse first h2 for author
 
   -- in each file, parse for p text after h1 id "pgepubid00001", add to text string
-  local paragraphs = rawText:select("p")
+  -- local paragraphs = rawText:select("p")
+  -- for i, paragraph in ipairs(paragraphs) do
+  --   print(i .. paragraph)
+  -- end
 
 -- return text string (to be fed to book:init)
