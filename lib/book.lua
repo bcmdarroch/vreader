@@ -9,6 +9,7 @@ function Book:init(title, author, text)
   self.planeSize = 1
   self.textScale = 0.05
   self.inverse = false
+  self.active = false
 
   self.x = 0
   self.y = 1

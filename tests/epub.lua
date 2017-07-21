@@ -14,7 +14,7 @@ print("dir", dirName)
 -- unzip epub
 -- hardcoded:
 -- os.execute("7z e assets/books/Emma.epub -oassets/books/unzipped/Emma *.html -r")
-os.execute("7z e assets/books/" .. fileName .. " -oassets/books/unzipped/" .. dirName .. " *.html -r")
+os.execute("7z e assets/books/" .. fileName .. " -oassets/books/unzipped/" .. dirName .. " *.htm *.html -r -aos")
 -- os.execute("unzip assets/books/" .. fileName .. " -oassets/books/unzipped/" .. dirName .. " *.html -r")
 
 -- iterate over files in filename

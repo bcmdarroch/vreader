@@ -1,6 +1,7 @@
 -- 1. main LOVR callbacks
 function lovr.load()
   require('lib/book')
+  require('lib/library')
 
   -- load environment & skybox
   environment =  lovr.graphics.newModel('assets/Room_block_small.obj', 'assets/texture.jpg')
@@ -14,8 +15,10 @@ function lovr.load()
   refreshControllers()
 
   -- load book
-  bookText = lovr.filesystem.read('assets/books/room/part1.txt') .. lovr.filesystem.read('assets/books/room/part2.txt') .. lovr.filesystem.read('assets/books/room/part3.txt') .. lovr.filesystem.read('assets/books/room/part4.txt') .. lovr.filesystem.read('assets/books/room/part5.txt') .. lovr.filesystem.read('assets/books/room/part6.txt')
-  book = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
+  -- bookText = lovr.filesystem.read('assets/books/room/part1.txt') .. lovr.filesystem.read('assets/books/room/part2.txt') .. lovr.filesystem.read('assets/books/room/part3.txt') .. lovr.filesystem.read('assets/books/room/part4.txt') .. lovr.filesystem.read('assets/books/room/part5.txt') .. lovr.filesystem.read('assets/books/room/part6.txt')
+  -- activeBook = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
+  library = Library:init()
+  activeBook = library.books['Room']['book']
   font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
   lovr.graphics.setFont(font)
 
@@ -39,7 +42,11 @@ function lovr.draw()
   renderControllers()
 
   -- render book
-  book:draw()
+  activeBook:draw()
+  -- draw activebook only
+
+  --drawActive
+  --drawLibrary (places nonactive books in scene)
 
 end
 
@@ -73,6 +80,8 @@ function lovr.controllerremoved()
 end
 
 function lovr.controllerpressed(controller, button)
+  -- if button is menu, check if a book is selected
+
   if button == 'touchpad' then
     book:turnPage(controller)
   end
@@ -102,3 +111,7 @@ function lovr.controllerPlaneCollide(controller)
   end
 
 end
+
+-- check what book should be active
+-- if controller is colliding with the book model,
+  -- then change that book to activeBook
