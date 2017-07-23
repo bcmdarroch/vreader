@@ -7,6 +7,10 @@ function lovr.load()
   environment =  lovr.graphics.newModel('assets/Room_block_small.obj', 'assets/texture.jpg')
   skybox = lovr.graphics.newSkybox('assets/water.jpg')
 
+  -- load room collider
+  -- world = lovr.physics.newWorld()
+  -- box = World:newBoxCollider(0, 0, 0, 3, 3, 3)
+
   -- load audio
   sound = lovr.audio.newSource('assets/background.ogg')
   sound:setLooping(true)
@@ -14,11 +18,12 @@ function lovr.load()
   -- load controllers
   refreshControllers()
 
-  -- load book
-  -- bookText = lovr.filesystem.read('assets/books/room/part1.txt') .. lovr.filesystem.read('assets/books/room/part2.txt') .. lovr.filesystem.read('assets/books/room/part3.txt') .. lovr.filesystem.read('assets/books/room/part4.txt') .. lovr.filesystem.read('assets/books/room/part5.txt') .. lovr.filesystem.read('assets/books/room/part6.txt')
-  -- activeBook = Book:init("A Room of One's Own", "Virginia Woolf", bookText)
+  -- load library & active book
   library = Library:init()
+  library:load()
   activeBook = library.books['Room']['book']
+
+  -- set font
   font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
   lovr.graphics.setFont(font)
 

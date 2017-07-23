@@ -4,7 +4,7 @@ Book = {}
 function Book:init(title, author, text)
   self.title = title
   self.author = author
-  self.text = Book:parseTxt(text)
+  self.text = Book:parseText(text)
   self.page = 1
   self.planeSize = 1
   self.textScale = 0.05
@@ -77,7 +77,7 @@ function Book:draw()
 
 end
 
-function Book:parseTxt(text)
+function Book:parseText(text)
   textTable = {}
   -- by page
   local i = 1
