@@ -18,28 +18,32 @@ local htmlparser = require('lib/htmlparser/init')
 -- os.execute("7z e assets/books/" .. fileName .. " -oassets/books/unzipped/" .. dirName .. " *.htm *.html -r -aos")
 
 -- HTML parser test
-io.input('assets/books/unzipped/Emma/@public@vhost@g@gutenberg@html@files@158@158-h@158-h-0.htm.html')
-rawText = io.read("*a")
--- print(rawText)
--- print("type:", type(rawText))
+local file = io.input('assets/books/unzipped/Emma/@public@vhost@g@gutenberg@html@files@158@158-h@158-h-0.htm.html')
+local rawText = io.read("*a") file:close()
 
--- local parsedHTML = htmlparser.parse(rawText)
--- print("1:", rawText[1])
--- print("2:", rawText[2])
+local root = htmlparser.parse(rawText)
+-- print("type:", type(root))
+-- print("root", root)
 
--- htmlparser not working, next try pattern matching
-print(string.match(rawText, "<p>(.+)</p>"))
+-- select all paragraphs except for Table of Contents
+local elements = root:select("p:not(.toc)")
 
---
--- for i, paragraph in ipairs(rawText) do
---   print("paragraph", paragraph)
---   print("p-tag selected", paragraph("p"))
--- end
+-- maintain title/chapter headings
+-- select h1 tags
+-- table.insert(elements, root:select("h1"))
+-- select h2 tags
+-- table.insert(elements, root:select("h2"))
 
--- in each file, parse for p text after h1 id "pgepubid00001", add to text string
--- local paragraphs = rawText:select("p")
--- for i, paragraph in ipairs(paragraphs) do
---   print(i .. paragraph)
--- end
+local text = ""
+for _, e in ipairs(elements) do
+  -- get p-tag content
+  -- print(e:getcontent())
+  text = text .. "\n" .. e:getcontent()
+end
 
--- return parsed text string
+-- strip HTML word styling
+-- print("text before", text)
+text = string.gsub(text, "<(.)>", "")
+-- text = string.gsub(text, "<(.)/>", "")
+text = string.gsub(text, "</(.)>", "")
+print("text after", text)
