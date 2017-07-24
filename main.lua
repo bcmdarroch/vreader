@@ -1,20 +1,15 @@
 require('lib/book')
-local simple = require('lib/simple')
+simple = require('lib/simple')
 
-viewport = {
-  viewMatrix = lovr.math.newTransform()
-}
+-- viewport = {
+--   viewMatrix = lovr.math.newTransform()
+-- }
 
 -- 1. main LOVR callbacks
 function lovr.load()
   -- load shader
-  -- lovr.graphics.setShader(simple()) -- crashes lovr
-  local shader = lovr.graphics.getShader()
-  viewport.viewMatrix:origin()
-  viewport.viewMatrix:translate(lovr.headset.getPosition())
-  viewport.viewMatrix:rotate(lovr.headset.getOrientation())
-  -- shader:send('zephyrView', viewport.viewMatrix:inverse())
-  -- shader:send('ambientColor', { .5, .5, .5 })
+  lovr.graphics.setShader(simple()) -- crashes lovr on pc
+  -- roomShader = require 'lib/zephyr'  -- need to test on vive
 
   -- load environment & skybox
   -- environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
@@ -50,6 +45,14 @@ function lovr.load()
 end
 
 function lovr.draw()
+  -- draw shader
+  -- local shader = lovr.graphics.getShader()
+  -- viewport.viewMatrix:origin()
+  -- viewport.viewMatrix:translate(lovr.headset.getPosition())
+  -- viewport.viewMatrix:rotate(lovr.headset.getOrientation())
+  -- roomShader:send('zephyrView', viewport.viewMatrix:inverse())
+  -- roomShader:send('ambientColor', { .5, .5, .5 })
+
   -- origin:
   -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
 
