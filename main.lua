@@ -3,8 +3,18 @@ function lovr.load()
   require('lib/book')
 
   -- load environment & skybox
-  environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
+  -- environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
+  bed = lovr.graphics.newModel('assets/models/Bed.obj', 'assets/textures/Bed_diffuse.png')
+  chair = lovr.graphics.newModel('assets/models/Chair.obj', 'assets/textures/texture.jpg')
+  desk = lovr.graphics.newModel('assets/models/Desk.obj', 'assets/textures/Desk_diffuse.png')
+  painting = lovr.graphics.newModel('assets/models/Painting.obj', 'assets/textures/texture.jpg')
+  shelf = lovr.graphics.newModel('assets/models/Shelf.obj', 'assets/textures/Shelf_diffuse.png')
+  window = lovr.graphics.newModel('assets/models/Window.obj', 'assets/textures/texture.jpg')
+  environment = { bed, chair, desk, painting, shelf, window }
+
+  wall = lovr.graphics.newModel('assets/models/Wall.obj', 'assets/textures/texture.jpg')
   skybox = lovr.graphics.newSkybox('assets/water.jpg')
+
 
   -- load room collider
   -- world = lovr.physics.newWorld()
@@ -36,8 +46,16 @@ function lovr.draw()
   local angle, x, y, z = lovr.headset.getOrientation()
   skybox:draw(-angle, x, y, z)
 
-  -- render environment given user's position in space
-  environment:draw(0, 0, 0,0.4)
+  -- render environment
+  -- environment:draw(0, 0, 0,0.4)
+  for i, object in ipairs(environment) do
+    object:draw(0, 0, 0, 0.4)
+  end
+
+  wall:draw(0, 0, 0, 0.4, 0)
+  wall:draw(0, 0, 0, 0.4, 1.5)
+  wall:draw(0, 0, 0, 0.4, 3)
+  wall:draw(0, 0, 0, 0.4, 4.5)
 
   -- render UI
   renderControllers()
