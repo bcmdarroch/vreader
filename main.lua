@@ -21,7 +21,16 @@ function lovr.load()
   -- load library & active book
   library = Library:init()
   library:load()
-  activeBook = library.books['Room']['book']
+  activeBook = library.books[1]['book']
+
+  -- print("library.books", library.books)
+  -- print("library length", #library.books)
+  -- for k, v in ipairs(library.books) do
+  --   print("book", k)
+  --   print("table", v['book'])
+  -- end
+  print("first book", library.books[3]['book'].title)
+  print('activeBook', activeBook.title)
 
   -- set font
   font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
@@ -46,8 +55,10 @@ function lovr.draw()
   -- render UI
   renderControllers()
 
-  -- render book
+  -- render books
+  library:draw()
   activeBook:draw()
+
   -- draw activebook only
 
   --drawActive

@@ -84,6 +84,11 @@ end
 
 function Book:parseText(text)
   textTable = {}
+  if #text < 500 then
+    table.insert(textTable, text)
+    return textTable
+  end
+
   -- by page
   local i = 1
   local j = 500
