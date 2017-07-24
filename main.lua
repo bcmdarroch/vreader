@@ -13,8 +13,8 @@ function lovr.load()
   viewport.viewMatrix:origin()
   viewport.viewMatrix:translate(lovr.headset.getPosition())
   viewport.viewMatrix:rotate(lovr.headset.getOrientation())
-  shader:send('zephyrView', viewport.viewMatrix:inverse())
-  shader:send('ambientColor', { .5, .5, .5 })
+  -- shader:send('zephyrView', viewport.viewMatrix:inverse())
+  -- shader:send('ambientColor', { .5, .5, .5 })
 
   -- load environment & skybox
   -- environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
@@ -68,7 +68,6 @@ function lovr.draw()
 
   wall:draw(0, 0, 0, 0.4, 0)
   wall:draw(0, 0, 0, 0.4, math.rad(90))
-  wall:draw(0, 0, 0, 0.4, math.rad(180))
   wall:draw(0, 0, 0, 0.4, math.rad(270))
 
   -- render UI
