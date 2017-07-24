@@ -7,7 +7,7 @@ function lovr.load()
   bed = lovr.graphics.newModel('assets/models/Bed.obj', 'assets/textures/Bed_diffuse.png')
   chair = lovr.graphics.newModel('assets/models/Chair.obj', 'assets/textures/texture.jpg')
   desk = lovr.graphics.newModel('assets/models/Desk.obj', 'assets/textures/Desk_diffuse.png')
-  painting = lovr.graphics.newModel('assets/models/Painting.obj', 'assets/textures/texture.jpg')
+  painting = lovr.graphics.newModel('assets/models/Painting.obj', 'assets/textures/Instruction_frame1.jpg')
   shelf = lovr.graphics.newModel('assets/models/Shelf.obj', 'assets/textures/Shelf_diffuse.png')
   window = lovr.graphics.newModel('assets/models/Window.obj', 'assets/textures/texture.jpg')
   environment = { bed, chair, desk, painting, shelf, window }
