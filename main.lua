@@ -3,8 +3,12 @@ function lovr.load()
   require('lib/book')
 
   -- load environment & skybox
-  environment =  lovr.graphics.newModel('assets/Room_block_small.obj', 'assets/texture.jpg')
+  environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
   skybox = lovr.graphics.newSkybox('assets/water.jpg')
+
+  -- load room collider
+  -- world = lovr.physics.newWorld()
+  -- box = world:newBoxCollider(0, 0, 0, 1, 1, 1)
 
   -- load audio
   sound = lovr.audio.newSource('assets/background.ogg')
@@ -33,7 +37,7 @@ function lovr.draw()
   skybox:draw(-angle, x, y, z)
 
   -- render environment given user's position in space
-  environment:draw(0, 0, 0, .4)
+  environment:draw(0, 0, 0,0.4)
 
   -- render UI
   renderControllers()
