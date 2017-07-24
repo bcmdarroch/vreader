@@ -1,6 +1,20 @@
+require('lib/book')
+local simple = require('lib/simple')
+
+viewport = {
+  viewMatrix = lovr.math.newTransform()
+}
+
 -- 1. main LOVR callbacks
 function lovr.load()
-  require('lib/book')
+  -- load shader
+  -- lovr.graphics.setShader(simple()) -- crashes lovr
+  local shader = lovr.graphics.getShader()
+  viewport.viewMatrix:origin()
+  viewport.viewMatrix:translate(lovr.headset.getPosition())
+  viewport.viewMatrix:rotate(lovr.headset.getOrientation())
+  shader:send('zephyrView', viewport.viewMatrix:inverse())
+  shader:send('ambientColor', { .5, .5, .5 })
 
   -- load environment & skybox
   -- environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
@@ -53,9 +67,9 @@ function lovr.draw()
   end
 
   wall:draw(0, 0, 0, 0.4, 0)
-  wall:draw(0, 0, 0, 0.4, 1.5)
-  wall:draw(0, 0, 0, 0.4, 3)
-  wall:draw(0, 0, 0, 0.4, 4.5)
+  wall:draw(0, 0, 0, 0.4, math.rad(90))
+  wall:draw(0, 0, 0, 0.4, math.rad(180))
+  wall:draw(0, 0, 0, 0.4, math.rad(270))
 
   -- render UI
   renderControllers()
