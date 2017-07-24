@@ -4,7 +4,7 @@ Library = Object:extend()
 
 function Library:init()
   self.books = {}
-  self.books['test'] = 'blahhhh'
+  -- self.books['test'] = 'blahhhh'
 
   return self
 
@@ -20,25 +20,23 @@ function Library:load()
   room = {
     book = Book:init("A Room of One's Own", "Virginia Woolf", roomText),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = { 0, 0, 0, 0.4 }
+    position = { 0, 0, 0, 0.3 }
   }
   -- self.books['Room'] = room
   table.insert(self.books, room)
 
   prince = {
-    -- book = Book:init("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/ThePrince')),
-    book = Book:init("The Prince", "Nicolo Machiavelli", "PRINCE TEST TEST TEST TEST"),
+    book = Book:init("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/Prince')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = { 2, 2, 2, 0.4 }
+    position = { 2, 2, 2, 0.3 }
   }
   -- self.books['Prince'] = prince
   table.insert(self.books, prince)
 
   emma = {
     book = Book:init("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
-    -- book = Book:init("Emma", "Jane Austen", "EMMA TEST TEST TEST TEST"),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = { 1, 1, 1, 0.4 }
+    position = { 1, 1, 1, 0.3 }
   }
   -- self.books['Emma'] = emma
   table.insert(self.books, emma)
@@ -65,8 +63,6 @@ end
 function Library:parseHTML(file)
   local htmlparser = require('lib/htmlparser/init')
 
-  -- local currentFile = io.input('assets/books/unzipped/Emma/@public@vhost@g@gutenberg@html@files@158@158-h@158-h-0.htm.html')
-  -- local rawText = io.read("*a") currentFile:close()
   local rawText = lovr.filesystem.read(file)
   local html = htmlparser.parse(rawText)
 
@@ -76,7 +72,7 @@ function Library:parseHTML(file)
   local text = ""
   for _, e in ipairs(elements) do
     -- extract p-tag content
-    text = text .. "\n" .. e:getcontent()
+    text = text .. "\n\n" .. e:getcontent()
   end
 
   -- strip HTML word styling
@@ -84,7 +80,7 @@ function Library:parseHTML(file)
   text = string.gsub(text, "<(.+)/>", "")
   text = string.gsub(text, "</(.)>", "")
 
-  print("parseHTML returned text", string.sub(text, 1, 500))
+  -- print("parseHTML returned text", string.sub(text, 1, 500))
   return text
 
 end

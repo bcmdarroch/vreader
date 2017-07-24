@@ -100,11 +100,11 @@ function lovr.controllerpressed(controller, button)
   -- if button is menu, check if a book is selected
 
   if button == 'touchpad' then
-    book:turnPage(controller)
+    activeBook:turnPage(controller)
   end
 
   if button == 'grip' then
-    book:inverseColors()
+    activeBook:inverseColors()
   end
 
 end
@@ -115,9 +115,9 @@ function lovr.controllerPlaneCollide(controller)
   conX, conY, conZ = controller:getPosition()
 
   -- get distance btwn plane and controller origins (position - position)
-  deltaX = book.x - conX
-  deltaY = book.y - conY
-  deltaZ = book.z - conZ
+  deltaX = activeBook.x - conX
+  deltaY = activeBook.y - conY
+  deltaZ = activeBook.z - conZ
   d = deltaX^2 + deltaY^2 + deltaZ^2
   distance = math.sqrt(d)
 
