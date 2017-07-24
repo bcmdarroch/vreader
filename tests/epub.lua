@@ -28,12 +28,6 @@ local root = htmlparser.parse(rawText)
 -- select all paragraphs except for Table of Contents
 local elements = root:select("p:not(.toc)")
 
--- maintain title/chapter headings
--- select h1 tags
--- table.insert(elements, root:select("h1"))
--- select h2 tags
--- table.insert(elements, root:select("h2"))
-
 local text = ""
 for _, e in ipairs(elements) do
   -- get p-tag content
@@ -44,6 +38,7 @@ end
 -- strip HTML word styling
 -- print("text before", text)
 text = string.gsub(text, "<(.)>", "")
--- text = string.gsub(text, "<(.)/>", "")
+text = string.gsub(text, "<(.+)/>", "")
 text = string.gsub(text, "</(.)>", "")
+-- text = string.gsub(text, [[<a id="link2HCH0004"><!--  H2 anchor -->]], "")
 print("text after", text)

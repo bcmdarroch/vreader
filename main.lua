@@ -22,15 +22,16 @@ function lovr.load()
   library = Library:init()
   library:load()
   activeBook = library.books[1]['book']
+  print(library.books['test'])
 
-  -- print("library.books", library.books)
-  -- print("library length", #library.books)
-  -- for k, v in ipairs(library.books) do
-  --   print("book", k)
-  --   print("table", v['book'])
-  -- end
-  print("first book", library.books[3]['book'].title)
-  print('activeBook', activeBook.title)
+  print("library.books", library.books)
+  print("library length", #library.books)
+  for k, v in ipairs(library.books) do
+    print("book", k)
+    print("table", v['book'].title)
+  end
+  -- print("first book", library.books[3]['book'].title)
+  -- print('activeBook', activeBook.title)
 
   -- set font
   font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
