@@ -1,11 +1,29 @@
+require('lib/book')
+simple = require('lib/simple')
+
+viewport = {
+  viewMatrix = lovr.math.newTransform()
+}
+
 -- 1. main LOVR callbacks
 function lovr.load()
-  require('lib/book')
-  require('lib/library')
+  -- load shader
+  -- lovr.graphics.setShader(simple()) -- crashes lovr on pc
+  roomShader = require 'lib/zephyr'  -- runs but no light
 
   -- load environment & skybox
-  environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
+  -- environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
+  bed = lovr.graphics.newModel('assets/models/Bed.obj', 'assets/textures/Bed_diffuse.png')
+  chair = lovr.graphics.newModel('assets/models/Chair.obj', 'assets/textures/texture.jpg')
+  desk = lovr.graphics.newModel('assets/models/Desk.obj', 'assets/textures/Desk_diffuse.png')
+  painting = lovr.graphics.newModel('assets/models/Painting.obj', 'assets/textures/Instruction_frame1.png')
+  shelf = lovr.graphics.newModel('assets/models/Shelf.obj', 'assets/textures/Shelf_diffuse.png')
+  window = lovr.graphics.newModel('assets/models/Window.obj', 'assets/textures/texture.jpg')
+  environment = { bed, chair, desk, painting, shelf, window }
+
+  wall = lovr.graphics.newModel('assets/models/Wall.obj', 'assets/textures/texture.jpg')
   skybox = lovr.graphics.newSkybox('assets/water.jpg')
+
 
   -- load room collider
   -- world = lovr.physics.newWorld()
@@ -40,6 +58,14 @@ function lovr.load()
 end
 
 function lovr.draw()
+  -- draw shader
+  local shader = lovr.graphics.getShader()
+  viewport.viewMatrix:origin()
+  viewport.viewMatrix:translate(lovr.headset.getPosition())
+  viewport.viewMatrix:rotate(lovr.headset.getOrientation())
+  roomShader:send('zephyrView', viewport.viewMatrix:inverse())
+  roomShader:send('ambientColor', { .5, .5, .5 })
+
   -- origin:
   -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
 
@@ -50,8 +76,15 @@ function lovr.draw()
   local angle, x, y, z = lovr.headset.getOrientation()
   skybox:draw(-angle, x, y, z)
 
-  -- render environment given user's position in space
-  environment:draw(0, 0, 0,0.4)
+  -- render environment
+  -- environment:draw(0, 0, 0,0.4)
+  for i, object in ipairs(environment) do
+    object:draw(0, 0, 0, 0.3)
+  end
+
+  wall:draw(0, 0, 0, 0.3, 0)
+  wall:draw(0, 0, 0, 0.3, math.rad(90))
+  wall:draw(0, 0, 0, 0.3, math.rad(270))
 
   -- render UI
   renderControllers()

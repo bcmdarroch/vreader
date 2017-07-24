@@ -20,7 +20,7 @@ function Library:load()
   room = {
     book = Book:init("A Room of One's Own", "Virginia Woolf", roomText),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = { 0, 0, 0, 0.3 }
+    position = lovr.math.newTransform(0, 0, 0, 0.3)
   }
   -- self.books['Room'] = room
   table.insert(self.books, room)
@@ -36,7 +36,7 @@ function Library:load()
   emma = {
     book = Book:init("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = { 1, 1, 1, 0.3 }
+    position = lovr.math.newTransform(0, 0, 0, 0.3)
   }
   -- self.books['Emma'] = emma
   table.insert(self.books, emma)
@@ -87,15 +87,16 @@ end
 
 -- places all books in environment
 function Library:draw()
-  local x = 0
-  local y = 0
-  local z = 0
+  -- local x = 0
+  -- local y = 0
+  -- local z = 0
 
   for i, book in ipairs(self.books) do
+    local x, y, z = book['position']
     book['model']:draw(x, y, z, 0.4)
-    x = x + 0.5
-    y = y + 0.5
-    z = z + 0.5
+    -- x = x + 0.5
+    -- y = y + 0.5
+    -- z = z + 0.5
   end
 
 end
