@@ -8,10 +8,10 @@ viewport = {
 -- 1. main LOVR callbacks
 function lovr.load()
   -- load shader
-  -- roomShader = require 'lib/zephyr'
   simpleShader = require 'lib/simple'
 
   -- load environment & skybox
+  SCALE = 0.3
   -- environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
   bed = lovr.graphics.newModel('assets/models/Bed.obj', 'assets/textures/Bed_diffuse.png')
   chair = lovr.graphics.newModel('assets/models/Chair.obj', 'assets/textures/texture.jpg')
@@ -22,7 +22,7 @@ function lovr.load()
   environment = { bed, chair, desk, painting, shelf, window }
 
   wall = lovr.graphics.newModel('assets/models/Wall.obj', 'assets/textures/texture.jpg')
-  skybox = lovr.graphics.newSkybox('assets/rainy_sky.jpg')
+  skybox = lovr.graphics.newSkybox('assets/garden.jpg')
 
   -- load room collider
   -- world = lovr.physics.newWorld()
@@ -48,7 +48,6 @@ function lovr.load()
 end
 
 function lovr.draw()
-
   -- play background sound
   -- sound:play()
 
@@ -66,22 +65,18 @@ function lovr.draw()
 
   -- render room shader
   lovr.graphics.setShader(simpleShader)
-  -- lovr.graphics.setShader(roomShader)
   viewport.viewMatrix:origin()
   viewport.viewMatrix:translate(lovr.headset.getPosition())
   viewport.viewMatrix:rotate(lovr.headset.getOrientation())
-  -- roomShader:send('zephyrView', viewport.viewMatrix:inverse())
-  -- roomShader:send('ambientColor', { .5, .5, .5 })
 
   -- render room
   -- environment:draw(0, 0, 0,0.4)
   for i, object in ipairs(environment) do
-    object:draw(0, 0, 0, 0.3)
+    object:draw(0, 0, 0, SCALE)
   end
-  wall:draw(0, 0, 0, 0.3, 0)
-  wall:draw(0, 0, 0, 0.3, math.rad(90))
-  wall:draw(0, 0, 0, 0.3, math.rad(270))
-
+  wall:draw(0, 0, 0, SCALE, 0)
+  wall:draw(0, 0, 0, SCALE, math.rad(90))
+  wall:draw(0, 0, 0, SCALE, math.rad(270))
 
 end
 
