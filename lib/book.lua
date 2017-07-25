@@ -72,7 +72,7 @@ function Book:draw()
   lovr.graphics.print(self.title, 0, 0.5, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
 
   -- mac testing:
-  -- lovr.graphics.print(self.text[self.page], 0, 0, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
+  -- lovr.graphics.print(self.text[self.page], 0, -1, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
 
   -- undo global color/origin changes
   lovr.graphics.setColor(255, 255, 255)

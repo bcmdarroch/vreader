@@ -24,10 +24,6 @@ function lovr.load()
   wall = lovr.graphics.newModel('assets/models/Wall.obj', 'assets/textures/texture.jpg')
   skybox = lovr.graphics.newSkybox('assets/garden.jpg')
 
-  -- load room collider
-  -- world = lovr.physics.newWorld()
-  -- box = world:newBoxCollider(0, 0, 0, 1, 1, 1)
-
   -- load audio
   sound = lovr.audio.newSource('assets/rain.ogg')
   sound:setLooping(true)
@@ -38,7 +34,7 @@ function lovr.load()
   -- load library & active book
   library = Library()
   library:load()
-  activeBook = library.books['Room']['book']
+  activeBook = library.books['Emma']['book']
   -- print('activeBook', activeBook.title)
 
   -- set font
@@ -78,6 +74,10 @@ function lovr.draw()
   wall:draw(0, 0, 0, SCALE, math.rad(90))
   wall:draw(0, 0, 0, SCALE, math.rad(270))
 
+  -- make room collider
+  world = lovr.physics.newWorld()
+  box = world:newBoxCollider(0, 0, 0, 2, 2, 2)
+
 end
 
 -- 2. controller functions
@@ -110,7 +110,9 @@ function lovr.controllerremoved()
 end
 
 function lovr.controllerpressed(controller, button)
-  -- if button is menu, check if a book is selected
+  if button == 'menu' then
+    activeBook = lovr.getSelectedBook(controller)
+  end
 
   if button == 'touchpad' then
     activeBook:turnPage(controller)
@@ -122,7 +124,7 @@ function lovr.controllerpressed(controller, button)
 
 end
 
--- check controller position relative to book
+-- check controller position relative to book plane
 function lovr.controllerPlaneCollide(controller)
   -- get controller position
   conX, conY, conZ = controller:getPosition()
@@ -142,6 +144,24 @@ function lovr.controllerPlaneCollide(controller)
 
 end
 
--- check what book should be active
--- if controller is colliding with the book model,
-  -- then change that book to activeBook
+-- check controller position relative to book models
+function lovr.getSelectedBook(controller)
+  -- get controller position
+  conX, conY, conZ = controller:getPosition()
+
+  -- get distance btwn plane and controller origins (position - position)
+  for i, book in pairs(library.books) do
+    deltaX = book['position'].x - conX
+    deltaY = book['position'].y - conY
+    deltaZ = book['position'].z - conZ
+    d = deltaX^2 + deltaY^2 + deltaZ^2
+    distance = math.sqrt(d)
+
+    if distance < 0.5 then
+      print("got that book", book['book'].title)
+      return book['book']
+    end
+  end
+  return false
+
+end
