@@ -23,7 +23,7 @@ function lovr.load()
   environment = { bed, chair, desk, painting, shelf, window }
 
   wall = lovr.graphics.newModel('assets/models/Wall.obj', 'assets/textures/texture.jpg')
-  skybox = lovr.graphics.newSkybox('assets/rainy_city.jpg')
+  skybox = lovr.graphics.newSkybox('assets/rainy_sky.jpg')
 
   -- load room collider
   -- world = lovr.physics.newWorld()

@@ -4,9 +4,6 @@ Library = Object:extend()
 
 function Library:new()
   self.books = {}
-  -- self.books['test'] = 'blahhhh'
-
-  -- return self
 
 end
 
@@ -20,34 +17,24 @@ function Library:load()
   room = {
     book = Book("A Room of One's Own", "Virginia Woolf", roomText),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = lovr.math.newTransform(-1, 0.38, 0.4, 0.3, 0.3, 0.3, math.rad(180), 1, 1, 0)
+    position = lovr.math.newTransform(-0.9, 0.38, 0.4, 0.3, 0.3, 0.3, math.rad(90), 0, 0, 1)
   }
   self.books['Room'] = room
-  -- table.insert(self.books, room)
-  -- print("in library load", self.books[1]['book'].title)
 
   prince = {
     book = Book("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/Prince')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = lovr.math.newTransform(0, 1, 0, 0.3)
+    position = lovr.math.newTransform(0.9, 0.89, -1, 0.3, 0.3, 0.3, math.rad(90), 0, 0, 1)
   }
   self.books['Prince'] = prince
-  -- table.insert(self.books, prince)
-  -- print("in library load", self.books[1]['book'].title)
 
   emma = {
     book = Book("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = lovr.math.newTransform(0, 0, 0, 0.3)
+    position = lovr.math.newTransform(0.2, 0.76, -1.4, 0.3, 0.3, 0.3, math.rad(90), 0, 0, 1)
   }
   self.books['Emma'] = emma
-  -- table.insert(self.books, emma)
-  -- print("in library load", self.books[3]['book'].title)
 
-  -- for k, v in ipairs(self.books) do
-  --   print("book", k)
-  --   print("table", v['book'].title)
-  -- end
 end
 
 -- load files
@@ -92,11 +79,7 @@ end
 
 -- places all books in environment
 function Library:draw()
-  -- local x = 0
-  -- local y = 0
-  -- local z = 0
-
-  for i, book in ipairs(self.books) do
+  for i, book in pairs(self.books) do
     book['model']:draw(book['position'])
   end
 

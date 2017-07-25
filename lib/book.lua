@@ -23,12 +23,9 @@ function Book:new(title, author, text)
   self.scaley = 1
   self.scalez = 1
 
-  -- return self
-
 end
 
 -- 2. main LOVR callbacks
--- book draw
 function Book:draw()
   lovr.graphics.push()
 
