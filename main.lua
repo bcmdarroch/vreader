@@ -8,7 +8,7 @@ viewport = {
 -- 1. main LOVR callbacks
 function lovr.load()
   -- load shader
-  -- roomShader = require 'lib/zephyr'  -- runs but no light
+  -- roomShader = require 'lib/zephyr'
   simpleShader = require 'lib/simple'
 
   -- load environment & skybox
@@ -57,8 +57,16 @@ function lovr.draw()
   lovr.graphics.setShader()
   skybox:draw(-angle, x, y, z)
 
+  -- render books
+  library:draw()
+  activeBook:draw()
+
+  -- render UI
+  renderControllers()
+
   -- render room shader
   lovr.graphics.setShader(simpleShader)
+  -- lovr.graphics.setShader(roomShader)
   viewport.viewMatrix:origin()
   viewport.viewMatrix:translate(lovr.headset.getPosition())
   viewport.viewMatrix:rotate(lovr.headset.getOrientation())
@@ -74,12 +82,6 @@ function lovr.draw()
   wall:draw(0, 0, 0, 0.3, math.rad(90))
   wall:draw(0, 0, 0, 0.3, math.rad(270))
 
-  -- render UI
-  renderControllers()
-
-  -- render books
-  library:draw()
-  activeBook:draw()
 
 end
 

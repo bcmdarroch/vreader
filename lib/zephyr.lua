@@ -5,7 +5,7 @@ return lovr.graphics.newShader([[
   out vec3 lightViewPosition;
   out vec3 rawNormal;
   out vec3 normalDirection;
-  uniform vec3 lightPosition = vec3(-1000, 3000, -3000);
+  uniform vec3 lightPosition = vec3(0, 10, 0);
   uniform mat4 zephyrView;
   vec4 position(mat4 projection, mat4 transform, vec4 vertex) {
     vec4 transformedVertex = lovrTransform * vec4(lovrPosition, 1.);

@@ -5,7 +5,7 @@ out vec3 lightDirection;
 out vec3 normalDirection;
 // This variable defines the position of the light source.  It could be a uniform if you want
 // to change it over time (see commented line).
-vec3 lightPosition = vec3(0, 0, 5);
+vec3 lightPosition = vec3(1, 10, 2);
 // uniform vec3 lightPosition; // use shader:send('lightPosition', { x, y, z }) to update
 vec4 position(mat4 projection, mat4 transform, vec4 vertex) {
   // Use matrices to transform position vectors and normal vectors.  They are given to us in
