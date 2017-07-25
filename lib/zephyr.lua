@@ -21,9 +21,9 @@ return lovr.graphics.newShader([[
   in vec3 lightViewPosition;
   in vec3 rawNormal;
   in vec3 normalDirection;
-  uniform vec3 ambientColor = vec3(.5, .5, .5);
-  uniform vec3 diffuseColor = vec3(1, 1, 1);
-  uniform vec3 specularColor = vec3(.3, .3, .3);
+  uniform vec3 ambientColor = vec3(.7, .7, .7);
+  uniform vec3 diffuseColor = vec3(.5, .5, .5);
+  uniform vec3 specularColor = vec3(.5, .5, .5);
   vec4 color(vec4 graphicsColor, sampler2D image, vec2 uv) {
     vec3 lightDirection = normalize(lightViewPosition - vertexPosition);
     float diffuse = max(dot(lightDirection, normalDirection), 0);
@@ -34,7 +34,17 @@ return lovr.graphics.newShader([[
       float specularAngle = max(dot(reflectDir, viewDirection), 0.);
       specular = pow(specularAngle, 10.);
     }
+    // clamp: rounds down
+    // diffuseVector = vec3(diffuse)
+    // diffuseColor
+    // specularVector = vec3(specular)
+    // specularColor
+    // ambientColor
+    // vector = vec3(1.)
+    // clamp within range diffuseVector*diffuseColor*specularVector*specularColor and ambientColor*vector
+    // raised to vec3(.4545)
     vec3 finalColor = pow(clamp(vec3(diffuse) * diffuseColor + vec3(specular) * specularColor, ambientColor, vec3(1.)), vec3(.4545));
     return vec4(finalColor, 1.) * graphicsColor * texture(image, uv);
+
   }
 ]])

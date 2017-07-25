@@ -17,21 +17,21 @@ function Library:load()
   room = {
     book = Book("A Room of One's Own", "Virginia Woolf", roomText),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = lovr.math.newTransform(-0.9, 0.38, 0.4, 0.3, 0.3, 0.3, math.rad(90), 0, 0, 1)
+    position = lovr.math.newTransform(-0.9, 0.38, 0.4, SCALE, SCALE, SCALE, math.rad(90), 0, 0, 1)
   }
   self.books['Room'] = room
 
   prince = {
-    book = Book("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/Prince')),
+    book = Book("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/ThePrince')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = lovr.math.newTransform(0.9, 0.89, -1, 0.3, 0.3, 0.3, math.rad(90), 0, 0, 1)
+    position = lovr.math.newTransform(0.9, 0.89, -1, SCALE, SCALE, SCALE, math.rad(90), 0, 0, 1)
   }
   self.books['Prince'] = prince
 
   emma = {
     book = Book("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = lovr.math.newTransform(0.2, 0.76, -1.4, 0.3, 0.3, 0.3, math.rad(90), 0, 0, 1)
+    position = lovr.math.newTransform(0.2, 0.76, -1.4, SCALE, SCALE, SCALE, math.rad(90), 0, 0, 1)
   }
   self.books['Emma'] = emma
 
