@@ -18,8 +18,13 @@ local htmlparser = require('lib/htmlparser/init')
 -- os.execute("7z e assets/books/" .. fileName .. " -oassets/books/unzipped/" .. dirName .. " *.htm *.html -r -aos")
 
 -- HTML parser test
-local file = io.input('assets/books/unzipped/Emma/@public@vhost@g@gutenberg@html@files@158@158-h@158-h-0.htm.html')
+local file = io.input('assets/books/unzipped/PrideAndPrejudice/www.gutenberg.org@files@1342@1342-h@1342-h-0.htm')
 local rawText = io.read("*a") file:close()
+rawText = string.gsub(rawText, [[<a (.+)<!-- H2 anchor -->]], "")
+rawText = string.gsub(rawText, "<br/>", "")
+rawText = string.gsub(rawText, "h1", "p")
+rawText = string.gsub(rawText, "h2", "p")
+-- print("text before", rawText)
 
 local root = htmlparser.parse(rawText)
 -- print("type:", type(root))
@@ -38,7 +43,6 @@ end
 -- strip HTML word styling
 -- print("text before", text)
 text = string.gsub(text, "<(.)>", "")
-text = string.gsub(text, "<(.+)/>", "")
-text = string.gsub(text, "</(.)>", "")
--- text = string.gsub(text, [[<a id="link2HCH0004"><!--  H2 anchor -->]], "")
+-- text = string.gsub(text, "</(.)>", "")
+
 print("text after", text)

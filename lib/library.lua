@@ -55,10 +55,14 @@ end
 function Library:parseHTML(file)
   local htmlparser = require('lib/htmlparser/init')
 
+  -- remove nested a-tags
   local rawText = lovr.filesystem.read(file)
-  local html = htmlparser.parse(rawText)
+  rawText = string.gsub(rawText, [[<a (.+)<!-- H2 anchor -->]], "")
+  rawText = string.gsub(rawText, "h1", "p")
+  rawText = string.gsub(rawText, "h2", "p")
 
-  -- select all paragraphs except for Table of Contents
+  -- parse text and select all paragraphs except for Table of Contents
+  local html = htmlparser.parse(rawText)
   local elements = html:select("p:not(.toc)")
 
   local text = ""

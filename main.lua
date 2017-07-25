@@ -12,7 +12,6 @@ function lovr.load()
 
   -- load environment & skybox
   SCALE = 0.3
-  -- environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
   bed = lovr.graphics.newModel('assets/models/Bed.obj', 'assets/textures/Bed_diffuse.png')
   chair = lovr.graphics.newModel('assets/models/Chair.obj', 'assets/textures/texture.jpg')
   desk = lovr.graphics.newModel('assets/models/Desk.obj', 'assets/textures/Desk_diffuse.png')
@@ -35,7 +34,6 @@ function lovr.load()
   library = Library()
   library:load()
   activeBook = library.books['Emma']['book']
-  -- print('activeBook', activeBook.title)
 
   -- set font
   font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
@@ -66,7 +64,6 @@ function lovr.draw()
   viewport.viewMatrix:rotate(lovr.headset.getOrientation())
 
   -- render room
-  -- environment:draw(0, 0, 0,0.4)
   for i, object in ipairs(environment) do
     object:draw(0, 0, 0, SCALE)
   end
@@ -129,7 +126,7 @@ function lovr.controllerPlaneCollide(controller)
   -- get controller position
   conX, conY, conZ = controller:getPosition()
 
-  -- get distance btwn plane and controller origins (position - position)
+  -- get distance btwn plane and controller origins
   deltaX = activeBook.x - conX
   deltaY = activeBook.y - conY
   deltaZ = activeBook.z - conZ
@@ -146,10 +143,8 @@ end
 
 -- check controller position relative to book models
 function lovr.getSelectedBook(controller)
-  -- get controller position
   conX, conY, conZ = controller:getPosition()
 
-  -- get distance btwn plane and controller origins (position - position)
   for i, book in pairs(library.books) do
     deltaX = book['position'].x - conX
     deltaY = book['position'].y - conY
