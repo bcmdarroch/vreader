@@ -1,5 +1,6 @@
--- 1. create book class
-Book = {}
+Object = require("lib/classic")
+
+Book = Object:extend()
 
 function Book:init(title, author, text)
   self.title = title

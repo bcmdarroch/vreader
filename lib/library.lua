@@ -18,28 +18,28 @@ function Library:load()
   end
 
   room = {
-    book = Book:init("A Room of One's Own", "Virginia Woolf", roomText),
+    book = Book("A Room of One's Own", "Virginia Woolf", roomText),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
     position = lovr.math.newTransform(0, 0, 0, 0.3)
   }
-  -- self.books['Room'] = room
-  table.insert(self.books, room)
+  self.books['Room'] = room
+  -- table.insert(self.books, room)
 
   prince = {
-    book = Book:init("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/Prince')),
+    book = Book("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/Prince')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
     position = lovr.math.newTransform(0, 1, 0, 0.3)
   }
-  -- self.books['Prince'] = prince
-  table.insert(self.books, prince)
+  self.books['Prince'] = prince
+  -- table.insert(self.books, prince)
 
   emma = {
-    book = Book:init("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
+    book = Book("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
     position = lovr.math.newTransform(0, 0, 0, 0.3)
   }
-  -- self.books['Emma'] = emma
-  table.insert(self.books, emma)
+  self.books['Emma'] = emma
+  -- table.insert(self.books, emma)
 
 end
 
