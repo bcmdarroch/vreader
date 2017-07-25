@@ -2,7 +2,7 @@ Object = require("lib/classic")
 
 Book = Object:extend()
 
-function Book:init(title, author, text)
+function Book:new(title, author, text)
   self.title = title
   self.author = author
   self.text = Book:parseText(text)
@@ -23,7 +23,7 @@ function Book:init(title, author, text)
   self.scaley = 1
   self.scalez = 1
 
-  return self
+  -- return self
 
 end
 

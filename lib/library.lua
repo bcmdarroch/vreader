@@ -2,11 +2,11 @@ Object = require("lib/classic")
 
 Library = Object:extend()
 
-function Library:init()
+function Library:new()
   self.books = {}
   -- self.books['test'] = 'blahhhh'
 
-  return self
+  -- return self
 
 end
 
@@ -24,6 +24,7 @@ function Library:load()
   }
   self.books['Room'] = room
   -- table.insert(self.books, room)
+  -- print("in library load", self.books[1]['book'].title)
 
   prince = {
     book = Book("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/Prince')),
@@ -32,6 +33,7 @@ function Library:load()
   }
   self.books['Prince'] = prince
   -- table.insert(self.books, prince)
+  -- print("in library load", self.books[1]['book'].title)
 
   emma = {
     book = Book("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
@@ -40,7 +42,12 @@ function Library:load()
   }
   self.books['Emma'] = emma
   -- table.insert(self.books, emma)
+  -- print("in library load", self.books[3]['book'].title)
 
+  -- for k, v in ipairs(self.books) do
+  --   print("book", k)
+  --   print("table", v['book'].title)
+  -- end
 end
 
 -- load files

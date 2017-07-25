@@ -37,17 +37,9 @@ function lovr.load()
   refreshControllers()
 
   -- load library & active book
-  library = Library:init()
+  library = Library()
   library:load()
-  activeBook = library.books[1]['book']
-
-  print("library.books", library.books)
-  print("library length", #library.books)
-  for k, v in ipairs(library.books) do
-    print("book", k)
-    print("table", v['book'].title)
-  end
-  -- print("first book", library.books[3]['book'].title)
+  activeBook = library.books['Room']['book']
   -- print('activeBook', activeBook.title)
 
   -- set font
@@ -90,11 +82,6 @@ function lovr.draw()
   -- render books
   library:draw()
   activeBook:draw()
-
-  -- draw activebook only
-
-  --drawActive
-  --drawLibrary (places nonactive books in scene)
 
 end
 
