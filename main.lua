@@ -1,5 +1,6 @@
 require('lib/book')
-simple = require('lib/simple')
+require('lib/library')
+-- simple = require('lib/simple')
 
 viewport = {
   viewMatrix = lovr.math.newTransform()
@@ -40,7 +41,6 @@ function lovr.load()
   library = Library:init()
   library:load()
   activeBook = library.books[1]['book']
-  print(library.books['test'])
 
   print("library.books", library.books)
   print("library length", #library.books)

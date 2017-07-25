@@ -20,26 +20,26 @@ function Library:load()
   room = {
     book = Book:init("A Room of One's Own", "Virginia Woolf", roomText),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = lovr.math.newTransform(0, 0, 0, 0.3)
+    position = lovr.math.newTransform(-1, 0.38, 0.4, 0.3, 0.3, 0.3, math.rad(180), 1, 1, 0)
   }
   -- self.books['Room'] = room
   table.insert(self.books, room)
 
-  prince = {
-    book = Book:init("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/Prince')),
-    model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = { 2, 2, 2, 0.3 }
-  }
-  -- self.books['Prince'] = prince
-  table.insert(self.books, prince)
-
-  emma = {
-    book = Book:init("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
-    model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
-    position = lovr.math.newTransform(0, 0, 0, 0.3)
-  }
-  -- self.books['Emma'] = emma
-  table.insert(self.books, emma)
+  -- prince = {
+  --   book = Book:init("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/Prince')),
+  --   model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
+  --   position = lovr.math.newTransform(1, 0.2, 0, 0.3, 0.3, 0.3)
+  -- }
+  -- -- self.books['Prince'] = prince
+  -- table.insert(self.books, prince)
+  --
+  -- emma = {
+  --   book = Book:init("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
+  --   model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
+  --   position = lovr.math.newTransform(0, 0.2, 0, 0.3, 0.3, 0.3)
+  -- }
+  -- -- self.books['Emma'] = emma
+  -- table.insert(self.books, emma)
 
 end
 
@@ -50,8 +50,6 @@ function Library:getText(dir)
 
   -- iterate over HTML files from unzipped epub
   for i, file in ipairs(files) do
-  --  local html = lovr.filesystem.read(dir .. '/' .. file)
-  --  print('html', html)
    local extract = Library:parseHTML(dir .. '/' .. file)
    text = text .. extract
   end
@@ -92,11 +90,7 @@ function Library:draw()
   -- local z = 0
 
   for i, book in ipairs(self.books) do
-    local x, y, z = book['position']
-    book['model']:draw(x, y, z, 0.4)
-    -- x = x + 0.5
-    -- y = y + 0.5
-    -- z = z + 0.5
+    book['model']:draw(book['position'])
   end
 
 end
