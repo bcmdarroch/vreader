@@ -1,6 +1,5 @@
 require('lib/book')
 require('lib/library')
--- simple = require('lib/simple')
 
 viewport = {
   viewMatrix = lovr.math.newTransform()
@@ -9,8 +8,8 @@ viewport = {
 -- 1. main LOVR callbacks
 function lovr.load()
   -- load shader
-  -- lovr.graphics.setShader(simple()) -- crashes lovr on pc
-  roomShader = require 'lib/zephyr'  -- runs but no light
+  -- roomShader = require 'lib/zephyr'  -- runs but no light
+  simpleShader = require 'lib/simple'
 
   -- load environment & skybox
   -- environment =  lovr.graphics.newModel('assets/models/Room_block_small.obj', 'assets/textures/texture.jpg')
@@ -49,25 +48,24 @@ function lovr.load()
 end
 
 function lovr.draw()
-  -- draw shader
-  local shader = lovr.graphics.getShader()
-  viewport.viewMatrix:origin()
-  viewport.viewMatrix:translate(lovr.headset.getPosition())
-  viewport.viewMatrix:rotate(lovr.headset.getOrientation())
-  roomShader:send('zephyrView', viewport.viewMatrix:inverse())
-  roomShader:send('ambientColor', { .5, .5, .5 })
-
-  -- origin:
-  -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
 
   -- play background sound
-  sound:play()
+  -- sound:play()
 
   -- render skybox
   local angle, x, y, z = lovr.headset.getOrientation()
+  lovr.graphics.setShader()
   skybox:draw(-angle, x, y, z)
 
-  -- render environment
+  -- render room shader
+  lovr.graphics.setShader(simpleShader)
+  viewport.viewMatrix:origin()
+  viewport.viewMatrix:translate(lovr.headset.getPosition())
+  viewport.viewMatrix:rotate(lovr.headset.getOrientation())
+  -- roomShader:send('zephyrView', viewport.viewMatrix:inverse())
+  -- roomShader:send('ambientColor', { .5, .5, .5 })
+
+  -- render room
   -- environment:draw(0, 0, 0,0.4)
   for i, object in ipairs(environment) do
     object:draw(0, 0, 0, 0.3)

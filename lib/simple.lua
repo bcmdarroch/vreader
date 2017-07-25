@@ -1,4 +1,4 @@
-local vertex = [[
+return lovr.graphics.newShader([[
 // Declare two variables that we are going to calculate in the vertex shader and send to the
 // fragment shader.
 out vec3 lightDirection;
@@ -21,9 +21,7 @@ vec4 position(mat4 projection, mat4 transform, vec4 vertex) {
   // This is the behavior for the default vertex shader, we leave it here so everything works!
   return projection * transform * vertex;
 }
-]]
-
-local fragment = [[
+]], [[
 // Declare the two variables that are sent to us by the vertex shader
 in vec3 lightDirection;
 in vec3 normalDirection;
@@ -36,8 +34,4 @@ vec4 color(vec4 graphicsColor, sampler2D image, vec2 uv) {
   vec4 lightColor = vec4(vec3(lightIntensity), 1.);
   return lightColor * graphicsColor * texture(image, uv);
 }
-]]
-
-return function()
-  return lovr.graphics.newShader(vertex, fragment)
-end
+]])
