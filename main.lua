@@ -23,15 +23,14 @@ function lovr.load()
   environment = { bed, chair, desk, painting, shelf, window }
 
   wall = lovr.graphics.newModel('assets/models/Wall.obj', 'assets/textures/texture.jpg')
-  skybox = lovr.graphics.newSkybox('assets/water.jpg')
-
+  skybox = lovr.graphics.newSkybox('assets/rainy_city.jpg')
 
   -- load room collider
   -- world = lovr.physics.newWorld()
   -- box = world:newBoxCollider(0, 0, 0, 1, 1, 1)
 
   -- load audio
-  sound = lovr.audio.newSource('assets/background.ogg')
+  sound = lovr.audio.newSource('assets/rain.ogg')
   sound:setLooping(true)
 
   -- load controllers
@@ -70,7 +69,7 @@ function lovr.draw()
   -- lovr.graphics.sphere(0, 0, 0, .1, 0, 0, 1)
 
   -- play background sound
-  -- sound:play()
+  sound:play()
 
   -- render skybox
   local angle, x, y, z = lovr.headset.getOrientation()
@@ -81,7 +80,6 @@ function lovr.draw()
   for i, object in ipairs(environment) do
     object:draw(0, 0, 0, 0.3)
   end
-
   wall:draw(0, 0, 0, 0.3, 0)
   wall:draw(0, 0, 0, 0.3, math.rad(90))
   wall:draw(0, 0, 0, 0.3, math.rad(270))
