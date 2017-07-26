@@ -57,7 +57,7 @@ function lovr.draw()
   lovr.graphics.setShader()
   skybox:draw(-angle, x, y, z)
 
-  -- render books
+  -- render books and activeBook plane
   library:draw()
   activeBook:draw()
 
@@ -74,14 +74,13 @@ function lovr.draw()
   for i, object in ipairs(environment) do
     object:draw(0, 0, 0, SCALE)
   end
-  chair:draw(-0.1, 0, 0, SCALE + 0.05, 0)
-  wall:draw(0, 0, 0, SCALE, 0)
-  wall:draw(0, 0, 0, SCALE, math.rad(90))
-  wall:draw(0, 0, 0, SCALE, math.rad(270))
-
-  -- make room collider
-  -- world = lovr.physics.newWorld()
-  -- box = world:newBoxCollider(0, 0, 0, 2, 2, 2)
+  chair:draw(-0.95, 0, 0, SCALE + 0.05, 0)
+  for i = 0, 3, 90 do
+    wall:draw(0, 0, 0, SCALE, math.rad(i))
+  end
+  -- wall:draw(0, 0, 0, SCALE, 0)
+  -- wall:draw(0, 0, 0, SCALE, math.rad(90))
+  -- wall:draw(0, 0, 0, SCALE, math.rad(270))
 
 end
 
@@ -116,9 +115,9 @@ end
 
 function lovr.controllerpressed(controller, button)
   if button == 'menu' then
-    activeBook = lovr.getSelectedBook(controller)['book']
-    activeBook.x, activeBook.y, activeBook.z = lovr.getSelectedBook(controller)['position']:transformPoint(0, 0, 0)
-    activeBook.y = activeBook.y + 0.5
+    activeBook = lovr.selectBook(controller)['book']
+    activeBook.x, activeBook.y, activeBook.z = lovr.selectBook(controller)['position']:transformPoint(0, 0, 0)
+    activeBook.y = activeBook.y + 0.3
   end
 
   if button == 'touchpad' then
@@ -152,7 +151,7 @@ function lovr.controllerPlaneCollide(controller)
 end
 
 -- check controller position relative to book models
-function lovr.getSelectedBook(controller)
+function lovr.selectBook(controller)
   conX, conY, conZ = controller:getPosition()
 
   for i, book in pairs(library.books) do

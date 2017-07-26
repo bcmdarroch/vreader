@@ -27,6 +27,7 @@ end
 
 -- 2. main LOVR callbacks
 function Book:draw()
+  -- move book position
   for i, controller in ipairs(controllers) do
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
        self.x, self.y, self.z = controller:getPosition()
@@ -44,8 +45,7 @@ function Book:draw()
     end
   end
 
--- render plane (increase y-axis scale), title, page number
--- set origin for plane
+-- set origin for plane, title, page number
   lovr.graphics.push()
   lovr.graphics.translate(self.x, self.y, self.z)
   lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
@@ -58,6 +58,7 @@ function Book:draw()
     lovr.graphics.setColor(38, 38, 38)
   end
 
+  -- render plane
   lovr.graphics.plane('fill', 0, 0, 0, self.planeSize)
 
   -- set text color
@@ -67,22 +68,19 @@ function Book:draw()
     lovr.graphics.setColor(223, 217, 228)
   end
 
+  -- render title, page number
   lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
   lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
   lovr.graphics.pop()
 
-  -- render text
   -- set origin for text
   lovr.graphics.push()
   lovr.graphics.translate(self.x, self.y, self.z)
   lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
   lovr.graphics.scale(self.scalex, self.scaley, self.scalez)
 
-  -- by page:
+  -- render text by page:
   lovr.graphics.print(self.text[self.page], 0, 0, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
-
-  -- mac testing:
-  -- lovr.graphics.print(self.text[self.page], 0, -1, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
 
   -- undo global color/origin changes
   lovr.graphics.setColor(255, 255, 255)

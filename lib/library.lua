@@ -8,14 +8,15 @@ function Library:new()
 end
 
 function Library:load()
-  local files = lovr.filesystem.getDirectoryItems('assets/books/room/')
-  local roomText = ""
-  for i, file in ipairs(files) do
-    roomText = roomText .. lovr.filesystem.read('assets/books/room/' .. file)
-  end
+  -- local files = lovr.filesystem.getDirectoryItems('assets/books/room/')
+  -- local roomText = ""
+  -- for i, file in ipairs(files) do
+  --   roomText = roomText .. lovr.filesystem.read('assets/books/room/' .. file)
+  -- end
 
   room = {
-    book = Book("A Room of One's Own", "Virginia Woolf", roomText),
+    -- book = Book("A Room of One's Own", "Virginia Woolf", roomText),
+    book = Book("A Room of One's Own", "Virginia Woolf", Library:getText('assets/books/unzipped/Room')),
     model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/Room_diffuse.png'),
     position = lovr.math.newTransform(-0.9, 0.38, 0.4, SCALE, SCALE, SCALE, math.rad(90), 0, 0, 1),
   }
@@ -76,7 +77,6 @@ function Library:parseHTML(file)
   text = string.gsub(text, "<(.+)/>", "")
   text = string.gsub(text, "</(.)>", "")
 
-  -- print("parseHTML returned text", string.sub(text, 1, 500))
   return text
 
 end
