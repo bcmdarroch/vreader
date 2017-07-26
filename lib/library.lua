@@ -16,21 +16,21 @@ function Library:load()
 
   room = {
     book = Book("A Room of One's Own", "Virginia Woolf", roomText),
-    model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
+    model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/Room_diffuse.png'),
     position = lovr.math.newTransform(-0.9, 0.38, 0.4, SCALE, SCALE, SCALE, math.rad(90), 0, 0, 1),
   }
   self.books['Room'] = room
 
   prince = {
     book = Book("The Prince", "Nicolo Machiavelli", Library:getText('assets/books/unzipped/ThePrince')),
-    model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
+    model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/Prince_diffuse.png'),
     position = lovr.math.newTransform(0.9, 0.89, -1, SCALE, SCALE, SCALE, math.rad(90), 0, 0, 1),
   }
   self.books['Prince'] = prince
 
   emma = {
     book = Book("Emma", "Jane Austen", Library:getText('assets/books/unzipped/Emma')),
-    model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/texture.jpg'),
+    model = lovr.graphics.newModel('assets/models/book.obj', 'assets/textures/Emma_diffuse.png'),
     position = lovr.math.newTransform(0.2, 0.76, -1.4, SCALE, SCALE, SCALE, math.rad(90), 0, 0, 1),
   }
   self.books['Emma'] = emma
@@ -86,12 +86,6 @@ function Library:draw()
   for i, book in pairs(self.books) do
     book['model']:draw(book['position'])
   end
-
-end
-
--- checks if a book is active or not
-function Library:setActiveBook()
-
 
 end
 
