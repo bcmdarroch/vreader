@@ -56,7 +56,7 @@ end
 function Library:parseHTML(file)
   local htmlparser = require('lib/htmlparser/init')
 
-  -- remove nested a-tags
+  -- remove nested a-tags, convert h1 and h2
   local rawText = lovr.filesystem.read(file)
   rawText = string.gsub(rawText, [[<a (.+)<!-- H2 anchor -->]], "")
   rawText = string.gsub(rawText, "h1", "p")

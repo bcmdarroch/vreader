@@ -32,16 +32,9 @@ function Book:draw()
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
        self.x, self.y, self.z = controller:getPosition()
        self.angle, self.ax, self.ay, self.az = controller:getOrientation()
-
-       if controller:getAxis('touchy') > 0 then
-         self.scalex = 1 + controller:getAxis('touchy')
-         self.scaley = 1 + controller:getAxis('touchy')
-         self.scalez = 1 + controller:getAxis('touchy')
-       else
-         self.scalex = 1 + controller:getAxis('touchy')
-         self.scaley = 1 + controller:getAxis('touchy')
-         self.scalez = 1 + controller:getAxis('touchy')
-       end
+       self.scalex = 0.75 + controller:getAxis('touchy')
+       self.scaley = 0.75 + controller:getAxis('touchy')
+       self.scalez = 0.75 + controller:getAxis('touchy')
     end
   end
 

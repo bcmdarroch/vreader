@@ -74,13 +74,11 @@ function lovr.draw()
   for i, object in ipairs(environment) do
     object:draw(0, 0, 0, SCALE)
   end
-  chair:draw(-0.95, 0, 0, SCALE + 0.05, 0)
-  for i = 0, 3, 90 do
-    wall:draw(0, 0, 0, SCALE, math.rad(i))
-  end
-  -- wall:draw(0, 0, 0, SCALE, 0)
-  -- wall:draw(0, 0, 0, SCALE, math.rad(90))
-  -- wall:draw(0, 0, 0, SCALE, math.rad(270))
+  chair:draw(-0.1, 0, 0, SCALE + 0.05, 0)
+
+  wall:draw(0, 0, 0, SCALE, 0)
+  wall:draw(0, 0, 0, SCALE, math.rad(90))
+  wall:draw(0, 0, 0, SCALE, math.rad(270))
 
 end
 
@@ -114,10 +112,10 @@ function lovr.controllerremoved()
 end
 
 function lovr.controllerpressed(controller, button)
-  if button == 'menu' then
+  if button == 'menu' and lovr.selectBook(controller) then
     activeBook = lovr.selectBook(controller)['book']
     activeBook.x, activeBook.y, activeBook.z = lovr.selectBook(controller)['position']:transformPoint(0, 0, 0)
-    activeBook.y = activeBook.y + 0.3
+    activeBook.y = activeBook.y + 0.5
   end
 
   if button == 'touchpad' then
@@ -167,6 +165,7 @@ function lovr.selectBook(controller)
       return book
     end
   end
-  return activeBook
+
+  return nil
 
 end
