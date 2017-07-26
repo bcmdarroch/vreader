@@ -20,7 +20,7 @@ local htmlparser = require('lib/htmlparser/init')
 -- HTML parser test
 local file = io.input('assets/books/unzipped/PrideAndPrejudice/www.gutenberg.org@files@1342@1342-h@1342-h-0.htm')
 local rawText = io.read("*a") file:close()
-rawText = string.gsub(rawText, [[<a (.+)<!-- H2 anchor -->]], "")
+rawText = string.gsub(rawText, [[<a id="id_2HCH0007"><!-- H2 anchor --></a>]], "")
 rawText = string.gsub(rawText, "<br/>", "")
 rawText = string.gsub(rawText, "h1", "p")
 rawText = string.gsub(rawText, "h2", "p")
@@ -43,6 +43,7 @@ end
 -- strip HTML word styling
 -- print("text before", text)
 text = string.gsub(text, "<(.)>", "")
+-- text = string.gsub(text, [[<a (.+)<!-- H2 anchor --></a>]], "")
 -- text = string.gsub(text, "</(.)>", "")
 
 print("text after", text)

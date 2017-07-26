@@ -24,7 +24,7 @@ function lovr.load()
   skybox = lovr.graphics.newSkybox('assets/garden.jpg')
 
   -- load audio
-  sound = lovr.audio.newSource('assets/rain.ogg')
+  sound = lovr.audio.newSource('assets/birds.ogg')
   sound:setLooping(true)
 
   -- load controllers
@@ -43,7 +43,7 @@ end
 
 function lovr.draw()
   -- play background sound
-  -- sound:play()
+  sound:play()
 
   -- render skybox
   local angle, x, y, z = lovr.headset.getOrientation()
