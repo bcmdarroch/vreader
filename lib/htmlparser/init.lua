@@ -6,8 +6,8 @@ local char = string.char
 local err = function(s) io.stderr:write(s) end
 local out = function(s) io.stdout:write(s) end
 
-local ElementNode = require("ElementNode")
-local voidelements = require("voidelements")
+local ElementNode = require("lib/htmlparser/ElementNode")
+local voidelements = require("lib/htmlparser/voidelements")
 
 local HtmlParser = {}
 

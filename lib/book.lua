@@ -1,14 +1,16 @@
--- 1. create book class
-Book = {}
+Object = require("lib/classic")
 
-function Book:init(title, author, text)
+Book = Object:extend()
+
+function Book:new(title, author, text)
   self.title = title
   self.author = author
-  self.text = Book:parseTxt(text)
+  self.text = Book:parseText(text)
   self.page = 1
-  self.planeSize = 1.1
+  self.planeSize = 1
   self.textScale = 0.05
   self.inverse = false
+  self.active = false
 
   self.x = 0
   self.y = 1
@@ -17,19 +19,14 @@ function Book:init(title, author, text)
   self.ax = 0
   self.ay = 0
   self.az = 0
-  self.scalex = 1
-  self.scaley = 1
-  self.scalez = 1
-
-  return self
+  self.scalex = 0.5
+  self.scaley = 0.5
+  self.scalez = 0.5
 
 end
 
 -- 2. main LOVR callbacks
--- book draw
 function Book:draw()
-  lovr.graphics.push()
-
   for i, controller in ipairs(controllers) do
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
        self.x, self.y, self.z = controller:getPosition()
@@ -47,33 +44,45 @@ function Book:draw()
     end
   end
 
-  -- set origin
+-- render plane (increase y-axis scale), title, page number
+-- set origin for plane
+  lovr.graphics.push()
+  lovr.graphics.translate(self.x, self.y, self.z)
+  lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
+  lovr.graphics.scale(self.scalex, self.scaley + 0.25, self.scalez)
+
+  -- set plane color
+  if self.inverse then
+    lovr.graphics.setColor(223, 217, 228)
+  else
+    lovr.graphics.setColor(38, 38, 38)
+  end
+
+  lovr.graphics.plane('fill', 0, 0, 0, self.planeSize)
+
+  -- set text color
+  if self.inverse then
+    lovr.graphics.setColor(38, 38, 38)
+  else
+    lovr.graphics.setColor(223, 217, 228)
+  end
+
+  lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.pop()
+
+  -- render text
+  -- set origin for text
+  lovr.graphics.push()
   lovr.graphics.translate(self.x, self.y, self.z)
   lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
   lovr.graphics.scale(self.scalex, self.scaley, self.scalez)
 
-  -- render plane
-  if self.inverse then
-    lovr.graphics.setColor(223, 217, 228)
-  else
-    lovr.graphics.setColor(38, 38, 38)
-  end
-  lovr.graphics.plane('fill', 0, 0, 0, self.planeSize)
-
-  -- render text
-  if self.inverse then
-    lovr.graphics.setColor(38, 38, 38)
-  else
-    lovr.graphics.setColor(223, 217, 228)
-  end
-
   -- by page:
-  lovr.graphics.print(self.text[self.page], 0, -0.02, 0.001, self.textScale, 0, 0, 0, 0, 15, left, top)
-  lovr.graphics.print(self.page, 0.5, -0.5, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
-  lovr.graphics.print(self.title, 0, 0.5, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.text[self.page], 0, 0, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
 
   -- mac testing:
-  -- lovr.graphics.print(self.text[self.page], 0, 0, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
+  -- lovr.graphics.print(self.text[self.page], 0, -1, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
 
   -- undo global color/origin changes
   lovr.graphics.setColor(255, 255, 255)
@@ -81,11 +90,16 @@ function Book:draw()
 
 end
 
-function Book:parseTxt(text)
+function Book:parseText(text)
   textTable = {}
+  if #text < 400 then
+    table.insert(textTable, text)
+    return textTable
+  end
+
   -- by page
   local i = 1
-  local j = 500
+  local j = 400
 
   while j <= string.len(text) do
 
@@ -117,8 +131,8 @@ end
 function Book:turnPage(controller)
   if controller:getAxis('touchx') > 0 and controller:getAxis('trigger') < 1 then
       self.page = self.page + 1
-      if self.page > #book.text then
-        self.page = #book.text
+      if self.page > #activeBook.text then
+        self.page = #activeBook.text
       end
   elseif controller:getAxis('touchx') < 0 and controller:getAxis('trigger') < 1 then
     self.page = self.page - 1
