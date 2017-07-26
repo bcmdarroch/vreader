@@ -7,7 +7,7 @@ function Book:new(title, author, text)
   self.author = author
   self.text = Book:parseText(text)
   self.page = 1
-  self.planeSize = 1.1
+  self.planeSize = 1
   self.textScale = 0.05
   self.inverse = false
   self.active = false
@@ -19,9 +19,9 @@ function Book:new(title, author, text)
   self.ax = 0
   self.ay = 0
   self.az = 0
-  self.scalex = 1
-  self.scaley = 1
-  self.scalez = 1
+  self.scalex = 0.5
+  self.scaley = 0.5
+  self.scalez = 0.5
 
 end
 
@@ -67,9 +67,9 @@ function Book:draw()
   end
 
   -- by page:
-  lovr.graphics.print(self.text[self.page], 0, -0.02, 0.001, self.textScale, 0, 0, 0, 0, 15, left, top)
-  lovr.graphics.print(self.page, 0.5, -0.5, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
-  lovr.graphics.print(self.title, 0, 0.5, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.text[self.page], 0, -0.01, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
+  lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
 
   -- mac testing:
   -- lovr.graphics.print(self.text[self.page], 0, -1, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
@@ -82,14 +82,14 @@ end
 
 function Book:parseText(text)
   textTable = {}
-  if #text < 500 then
+  if #text < 400 then
     table.insert(textTable, text)
     return textTable
   end
 
   -- by page
   local i = 1
-  local j = 500
+  local j = 400
 
   while j <= string.len(text) do
 
