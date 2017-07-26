@@ -27,6 +27,7 @@ function lovr.load()
 
   -- load audio
   sound = lovr.audio.newSource('assets/birds.ogg')
+  lovr.audio.setVolume(2)
   sound:setLooping(true)
 
   -- load controllers
