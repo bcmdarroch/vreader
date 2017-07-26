@@ -33,7 +33,11 @@ function lovr.load()
   -- load library & active book
   library = Library()
   library:load()
-  activeBook = library.books['Emma']['book']
+  activeBook = library.books['Room']['book']
+  activeBook.x, activeBook.y, activeBook.z = library.books['Room']['position']:transformPoint(0, 0, 0)
+  activeBook.y = activeBook.y + 0.5
+  activeBook.angle = math.rad(90)
+  activeBook.ay = 1
 
   -- set font
   font = lovr.graphics.newFont('assets/Arvo-Regular.ttf', 48)
@@ -43,7 +47,7 @@ end
 
 function lovr.draw()
   -- play background sound
-  -- sound:play()
+  sound:play()
 
   -- render skybox
   local angle, x, y, z = lovr.headset.getOrientation()
@@ -72,8 +76,8 @@ function lovr.draw()
   wall:draw(0, 0, 0, SCALE, math.rad(270))
 
   -- make room collider
-  world = lovr.physics.newWorld()
-  box = world:newBoxCollider(0, 0, 0, 2, 2, 2)
+  -- world = lovr.physics.newWorld()
+  -- box = world:newBoxCollider(0, 0, 0, 2, 2, 2)
 
 end
 
@@ -108,7 +112,9 @@ end
 
 function lovr.controllerpressed(controller, button)
   if button == 'menu' then
-    activeBook = lovr.getSelectedBook(controller)
+    activeBook = lovr.getSelectedBook(controller)['book']
+    activeBook.x, activeBook.y, activeBook.z = lovr.getSelectedBook(controller)['position']:transformPoint(0, 0, 0)
+    activeBook.y = activeBook.y + 0.5
   end
 
   if button == 'touchpad' then
@@ -146,17 +152,18 @@ function lovr.getSelectedBook(controller)
   conX, conY, conZ = controller:getPosition()
 
   for i, book in pairs(library.books) do
-    deltaX = book['position'].x - conX
-    deltaY = book['position'].y - conY
-    deltaZ = book['position'].z - conZ
+    local x, y, z = book['position']:transformPoint(0, 0, 0)
+
+    local deltaX = x - conX
+    local deltaY = y - conY
+    local deltaZ = z - conZ
     d = deltaX^2 + deltaY^2 + deltaZ^2
     distance = math.sqrt(d)
 
     if distance < 0.5 then
-      print("got that book", book['book'].title)
-      return book['book']
+      return book
     end
   end
-  return false
+  return activeBook
 
 end
