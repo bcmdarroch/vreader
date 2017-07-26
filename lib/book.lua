@@ -27,8 +27,6 @@ end
 
 -- 2. main LOVR callbacks
 function Book:draw()
-  lovr.graphics.push()
-
   for i, controller in ipairs(controllers) do
     if controller:getAxis('trigger') == 1 and lovr.controllerPlaneCollide(controller) == true then
        self.x, self.y, self.z = controller:getPosition()
@@ -46,30 +44,42 @@ function Book:draw()
     end
   end
 
-  -- set origin
+-- render plane (increase y-axis scale), title, page number
+-- set origin for plane
+  lovr.graphics.push()
+  lovr.graphics.translate(self.x, self.y, self.z)
+  lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
+  lovr.graphics.scale(self.scalex, self.scaley + 0.25, self.scalez)
+
+  -- set plane color
+  if self.inverse then
+    lovr.graphics.setColor(223, 217, 228)
+  else
+    lovr.graphics.setColor(38, 38, 38)
+  end
+
+  lovr.graphics.plane('fill', 0, 0, 0, self.planeSize)
+
+  -- set text color
+  if self.inverse then
+    lovr.graphics.setColor(38, 38, 38)
+  else
+    lovr.graphics.setColor(223, 217, 228)
+  end
+
+  lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.01, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.pop()
+
+  -- render text
+  -- set origin for text
+  lovr.graphics.push()
   lovr.graphics.translate(self.x, self.y, self.z)
   lovr.graphics.rotate(self.angle, self.ax, self.ay, self.az)
   lovr.graphics.scale(self.scalex, self.scaley, self.scalez)
 
-  -- render plane
-  if self.inverse then
-    lovr.graphics.setColor(223, 217, 228)
-  else
-    lovr.graphics.setColor(38, 38, 38)
-  end
-  lovr.graphics.plane('fill', 0, 0, 0, self.planeSize)
-
-  -- render text
-  if self.inverse then
-    lovr.graphics.setColor(38, 38, 38)
-  else
-    lovr.graphics.setColor(223, 217, 228)
-  end
-
   -- by page:
-  lovr.graphics.print(self.text[self.page], 0, -0.01, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
-  lovr.graphics.print(self.page, 0.45, -0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
-  lovr.graphics.print(self.title, 0, 0.45, 0.001, self.textScale - 0.02, 0, 0, 0, 0, 10, left, top)
+  lovr.graphics.print(self.text[self.page], 0, 0, 0.001, self.textScale, 0, 0, 0, 0, 12, left, top)
 
   -- mac testing:
   -- lovr.graphics.print(self.text[self.page], 0, -1, -1, self.textScale, 0, 0, 0, 0, 12, left, top)
